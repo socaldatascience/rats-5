@@ -52,11 +52,11 @@ bc_means <-
 
 bc_means %>% 
   ggplot(aes(x = time, y = mean_beta_bc)) +
-  geom_line(color = "darkgreen") +
+  geom_line(color = "#009E73") +
   labs(x = "Time",
        y = "Mean of Beta BC Coefficient")
 
-bc_plot <- geom_line(data = bc_means, aes(y = mean_beta_bc), colour = "darkgreen")
+bc_plot <- geom_line(data = bc_means, aes(y = mean_beta_bc), colour = "#009E73")
 ```
 
 
