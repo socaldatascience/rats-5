@@ -8,7 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(dplyr)
-
 ```
 
 # Loading in Data
