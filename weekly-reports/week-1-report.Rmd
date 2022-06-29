@@ -37,8 +37,6 @@ ab_plot <-
        y = "Mean of Beta AB Coefficient") 
 ```
 
-
-
 # Plot BC
 
 ```{r}
@@ -101,12 +99,17 @@ de_line <- geom_line(data = de_means, aes(y = mean_beta_de), colour = "#56B4E9")
 # Combined Plot
 
 ```{r}
-ab_plot +
+(ab_plot +
   bc_plot +
   cd_line +
-  de_line
+  de_line) +
+  labs(x = "Time",
+       y = "Mean of Beta AB, BC, CD, DE Coefficient")
 ```
 
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> 195c9ec3fd3f70cabb4d138991f553e45b9b4209
