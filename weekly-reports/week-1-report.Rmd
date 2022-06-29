@@ -74,7 +74,7 @@ cd_means %>%
   ggplot(aes(x = time, y = mean_beta_cd)) +
   geom_line(color = 'darkblue') + 
   labs(x = "Time",
-       y = "Mean of Beta AB Coefficient") 
+       y = "Mean of Beta CD Coefficient") 
 
 cd_line <- geom_line(data = cd_means, aes(y = mean_beta_cd), colour = 'darkblue')
 
