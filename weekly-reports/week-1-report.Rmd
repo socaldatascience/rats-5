@@ -42,6 +42,25 @@ ab_plot <-
 
 # Plot BC
 
+```{r}
+bc_means <-
+  bc %>% 
+  mutate(mean_beta_bc = rowMeans(bc)) %>% 
+  ungroup() %>% 
+  mutate(time = row_number()) %>% 
+  select(time, mean_beta_bc)
+
+bc_means %>% 
+  ggplot(aes(x = time, y = mean_beta_bc)) +
+  geom_line(color = "darkgreen") +
+  labs(x = "Time",
+       y = "Mean of Beta BC Coefficient")
+
+bc_plot <- geom_line(data = bc_means, aes(y = mean_beta_bc))
+```
+
+
+
 # Plot CD
 ```{r}
 cd_means <- 
@@ -84,6 +103,7 @@ de_line <- geom_line(data = de_means, aes(y = mean_beta_de), colour = "#56B4E9")
 
 ```{r}
 ab_plot +
+  bc_plot +
   cd_line +
   de_line
 ```
