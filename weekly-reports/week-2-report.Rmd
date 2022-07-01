@@ -151,7 +151,6 @@ bm_odor_1 <-
 bm_odor_1 <- 
   cbind(bm_odor_1, em) %>% 
   filter(odor_1 == 1)
-
 ```
 
 
