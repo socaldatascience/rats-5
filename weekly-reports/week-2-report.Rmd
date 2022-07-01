@@ -207,7 +207,6 @@ bm %>%
 
 ### Neurons Firing in Certain Positions 
 
-
 ### Odor A
 
 ```{r}
