@@ -205,7 +205,10 @@ data.frame(neuron = factor(names(firing_counts)),
   geom_col() +
   labs(title = "Session Spike Counts", 
        x = "Neuron", 
-       y = "Number of Spikes")
+       y = "Number of Spikes") +
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust = 1))
 ```
 ```{r}
 which(em == 1, arr.ind = TRUE) %>% 
