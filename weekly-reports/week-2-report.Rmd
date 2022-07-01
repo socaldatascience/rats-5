@@ -108,9 +108,6 @@ col_names <- data.frame(behavior_m[2])
             neuron_47 = EM.47)
   
   em <- clean_names(em)
-  
-  
-
 ```
 
 ### changing variable types
