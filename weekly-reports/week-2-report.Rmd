@@ -114,6 +114,7 @@ col_names <- data.frame(behavior_m[2])
 ```
 
 ### changing variable types
+
 ```{r}
  range(bm$time_bin) # could use min or max function
   unique(bm$odor_1)  
@@ -154,6 +155,15 @@ bm_odor_1 <-
 bm_odor_1 <- 
   cbind(bm_odor_1, em) %>% 
   filter(odor_1 == 1)
+
+
+bm_odor_2 <- 
+  bm %>% 
+  select(time_bin, odor_2)
+
+bm_odor_2 <- 
+  cbind(bm_odor_2, em) %>% 
+  filter(odor_2 == 1)
 
 ```
 
