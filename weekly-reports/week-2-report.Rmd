@@ -1,6 +1,6 @@
 ---
 title: "Week 2 Report"
-author: "Giles Carlos"
+author: "Giles Carlos, Alyssandrei Parinas, Cadence Pinkerton, James Owens, Mia Chiu"
 date: '2022-07-01'
 output: html_document
 ---
