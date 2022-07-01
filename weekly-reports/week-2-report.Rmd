@@ -31,7 +31,7 @@ bm <- data.frame(behavior_m[1])
 col_names <- data.frame(behavior_m[2])
 ```
 
-### Renaming and Changing Types
+### Renaming variables 
 
 ```{r}
   bm <-
@@ -56,8 +56,39 @@ col_names <- data.frame(behavior_m[2])
          y_val_pos = behavMatrix.18)
   
   bm <- clean_names(bm)
+
 ```
 
+### changing variable types
+```{r}
+ range(bm$time_bin) # could use min or max function
+  unique(bm$odor_1)  
+  unique(bm$position_1) 
+  unique(bm$in_seq_log) 
+  unique(bm$performance_log) 
+  unique(bm$poke_events) 
+  unique(bm$front_reward) 
+  unique(bm$back_reward) 
+  
+  bm <-
+    bm %>%
+    mutate(odor_1 = as.logical(odor_1),
+           odor_2 = as.logical(odor_2),
+           odor_3 = as.logical(odor_3),
+           odor_4 = as.logical(odor_3),
+           odor_5 = as.logical(odor_3),
+           position_1 = as.logical(position_1),
+           position_2 = as.logical(position_2),
+           position_3 = as.logical(position_3),
+           position_4 = as.logical(position_4),
+           position_5 = as.logical(position_5),
+           in_seq_log = as.factor(in_seq_log),
+           performance_log = as.factor(performance_log),
+           poke_events = as.factor(poke_events),
+           front_reward = as.logical(front_reward),
+           back_reward = as.logical(back_reward))
+  glimpse(bm)
+```
 
 # Merging Ensemble Matrix and Behavior Matrix by Odor 
 
