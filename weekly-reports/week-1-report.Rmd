@@ -1,6 +1,6 @@
 ---
 title: "Week 1 Report"
-author: "Giles Carlos, Alyssandrei Parinas, Cadence Pinkerton, James Owens, Mia Chiu "
+author: "Giles Carlos, Alyssandrei Parinas, Cadence Pinkerton, James Owens, Mia Chiu"
 date: '2022-06-28'
 output: html_document
 ---
