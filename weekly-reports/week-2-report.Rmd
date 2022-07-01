@@ -192,15 +192,40 @@ bm_odor_5 <-
 
 # Exploratory Data Analysis
 
+### Neurons Firing
+
+```{r fig.width = 10}
+firing_counts <- em %>% 
+  colSums()
+
+data.frame(neuron = factor(names(firing_counts)), 
+           firing_counts) %>%
+  arrange(desc(firing_counts)) %>% 
+  ggplot(aes(reorder(neuron, -firing_counts), firing_counts)) + 
+  geom_col() +
+  theme(axis.text.x = element_blank()) +
+  labs(title = "Session Spike Counts", 
+       x = "Neuron", 
+       y = "Number of Spikes")
+```
+
+
+### Poke Events
+
+
 ```{r}
 bm %>% 
   select(time_bin, odor_1, poke_events) %>% 
   ggplot(aes(x = time_bin, y = poke_events)) + 
   geom_line() +
   geom_line(aes(x = time_bin, y = odor_1), colour = "Red")
-```
 
-### Poke Events
+bm %>% 
+  select(time_bin, odor_2, poke_events) %>% 
+  ggplot(aes(x = time_bin, y = poke_events)) + 
+  geom_line() +
+  geom_line(aes(x = time_bin, y = odor_2), colour = "Blue") 
+```
 
 ### Cells Firing in Odor vs Outside Odor
 
