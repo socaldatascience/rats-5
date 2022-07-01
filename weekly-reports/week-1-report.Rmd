@@ -8,7 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(dplyr)
-library(R.matlab)
 ```
 
 # Loading in Data
@@ -18,38 +17,7 @@ ab <- readr::read_csv(here::here("data/std_beta_ab_iti_ab.csv"), col_names = FAL
 bc <- readr::read_csv(here::here("data/std_beta_bc_iti_ab.csv"), col_names = FALSE)
 cd <- readr::read_csv(here::here("data/std_beta_cd_iti_ab.csv"), col_names = FALSE)
 de <- readr::read_csv(here::here("data/std_beta_de_iti_ab.csv"), col_names = FALSE)
-
-behavior_m <- readMat(here::here("data/superchris_BM.mat"))
-ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
 ```
-
-# Indexing
-
-```{r}
-em <- data.frame(ensemble_m[1])
-bm <- data.frame(behavior_m[1]) 
-names <- data.frame(behavior_m[2])
-
-em
-
-bm %>% 
-  select(behavMatrix.1, behavMatrix.2, behavMatrix.14) %>% 
-  ggplot(aes(x = behavMatrix.1, y = behavMatrix.14)) + 
-  geom_line() +
-  geom_line(aes(x = behavMatrix.1, y = behavMatrix.2), colour = "Red")
-  
-```
-
-
-
-
-```{r}
-bm %>% 
-  slice(1:nrow(bm)) %>% 
-  ggplot(aes(x = behavMatrix.1, y = behavMatrix.2)) +
-  geom_line()
-```
-
 
 
 # Plot AB
