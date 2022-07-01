@@ -56,107 +56,42 @@ col_names <- data.frame(behavior_m[2])
          y_val_pos = behavMatrix.18)
   
   bm <- clean_names(bm)
-  
-  em <- 
-    em %>%
-     rename(neuron_1 = EM.1,
-            neuron_2 = EM.2,
-            neuron_3 = EM.3,
-            neuron_4 = EM.4,
-            neuron_5 = EM.5,
-            neuron_6 = EM.6,
-            neuron_7 = EM.7,
-            neuron_8 = EM.8,
-            neuron_9 = EM.9,
-            neuron_10 = EM.10,
-            neuron_11 = EM.11,
-            neuron_12 = EM.12,
-            neuron_13 = EM.13,
-            neuron_14 = EM.14,
-            neuron_15 = EM.15,
-            neuron_16 = EM.16,
-            neuron_17 = EM.17,
-            neuron_18 = EM.18,
-            neuron_19 = EM.19,
-            neuron_20 = EM.20,
-            neuron_21 = EM.21,
-            neuron_22 = EM.22,
-            neuron_23 = EM.23,
-            neuron_24 = EM.24,
-            neuron_25 = EM.25,
-            neuron_26 = EM.26,
-            neuron_27 = EM.27,
-            neuron_28 = EM.28,
-            neuron_29 = EM.29,
-            neuron_30 = EM.30,
-            neuron_31 = EM.31,
-            neuron_32 = EM.32,
-            neuron_33 = EM.33,
-            neuron_34 = EM.34,
-            neuron_35 = EM.35,
-            neuron_36 = EM.36,
-            neuron_37 = EM.37,
-            neuron_38 = EM.38,
-            neuron_39 = EM.39,
-            neuron_40 = EM.40,
-            neuron_41 = EM.41,
-            neuron_42 = EM.42,
-            neuron_43 = EM.43,
-            neuron_44 = EM.44,
-            neuron_45 = EM.45,
-            neuron_46 = EM.46,
-            neuron_47 = EM.47)
-  
-  em <- clean_names(em)
-  
-  
 
 ```
 
 ### changing variable types
 ```{r}
  range(bm$time_bin) # could use min or max function
-  unique(bm$odor_1)  
-  unique(bm$position_1) 
+  unique(bm$odor_5)  
+  unique(bm$position_5) 
   unique(bm$in_seq_log) 
   unique(bm$performance_log) 
   unique(bm$poke_events) 
   unique(bm$front_reward) 
   unique(bm$back_reward) 
+  table(bm$performance_log)
   
   bm <-
     bm %>%
-    mutate(odor_1 = as.logical(odor_1),
-           odor_2 = as.logical(odor_2),
-           odor_3 = as.logical(odor_3),
-           odor_4 = as.logical(odor_3),
-           odor_5 = as.logical(odor_3),
-           position_1 = as.logical(position_1),
-           position_2 = as.logical(position_2),
-           position_3 = as.logical(position_3),
-           position_4 = as.logical(position_4),
-           position_5 = as.logical(position_5),
+    mutate(odor_1 = as.integer(odor_1),
+           odor_2 = as.integer(odor_2),
+           odor_3 = as.integer(odor_3),
+           odor_4 = as.integer(odor_4),
+           odor_5 = as.integer(odor_5),
+           position_1 = as.integer(position_1),
+           position_2 = as.integer(position_2),
+           position_3 = as.integer(position_3),
+           position_4 = as.integer(position_4),
+           position_5 = as.integer(position_5),
            in_seq_log = as.factor(in_seq_log),
            performance_log = as.factor(performance_log),
            poke_events = as.factor(poke_events),
-           front_reward = as.logical(front_reward),
-           back_reward = as.logical(back_reward))
+           front_reward = as.integer(front_reward),
+           back_reward = as.integer(back_reward))
   glimpse(bm)
 ```
 
 # Merging Ensemble Matrix and Behavior Matrix by Odor 
-
-```{r}
-bm_odor_1 <- 
-  bm %>% 
-  select(time_bin, odor_1)
-
-bm_odor_1 <- 
-  cbind(bm_odor_1, em) %>% 
-  filter(odor_1 == 1)
-
-```
-
 
 
 # Exploratory Data Analysis
@@ -177,10 +112,56 @@ bm %>%
 
 ### Odor A
 
+```{r}
+odor_a_plot <- bm %>% 
+  select(time_bin, odor_1) %>% 
+  ggplot(aes(x = time_bin, y = odor_1)) + 
+  geom_line()
+
+odor_a_plot
+```
+
 ### Odor B
+
+```{r}
+odor_b_plot <- bm %>% 
+  select(time_bin, odor_2) %>% 
+  ggplot(aes(x = time_bin, y = odor_2)) + 
+  geom_line()
+
+odor_b_plot
+```
 
 ### Odor C
 
+```{r}
+odor_c_plot <- bm %>% 
+  select(time_bin, odor_3) %>% 
+  ggplot(aes(x = time_bin, y = odor_3)) + 
+  geom_line()
+
+odor_c_plot
+```
+
 ### Odor D
 
+```{r}
+odor_d_plot <- bm %>% 
+  select(time_bin, odor_4) %>% 
+  ggplot(aes(x = time_bin, y = odor_4)) + 
+  geom_line()
+
+odor_d_plot
+```
+
 ### Odor E
+
+```{r}
+odor_e_plot <- bm %>% 
+  select(time_bin, odor_5) %>% 
+  ggplot(aes(x = time_bin, y = odor_5)) + 
+  geom_line()
+
+odor_e_plot
+```
+
