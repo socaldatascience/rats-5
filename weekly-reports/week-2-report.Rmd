@@ -10,6 +10,8 @@ output: html_document
 ```{r}
 library(tidyverse)
 library(R.matlab)
+library(janitor)
+library(readr)
 ```
 
 # Loading in Data
@@ -32,7 +34,29 @@ col_names <- data.frame(behavior_m[2])
 ### Renaming and Changing Types
 
 ```{r}
+bm <- clean_names(bm)
+  bm <-
+    bm %>%
+     rename(timeBin = behav_matrix_1,
+         odor1 = behav_matrix_2,
+         odor2 = behav_matrix_3,
+         odor3 = behav_matrix_4,
+         odor4 = behav_matrix_5,
+         odor5 = behav_matrix_6,
+         position1 = behav_matrix_7,
+         position2 = behav_matrix_8,
+         position3 = behav_matrix_9,
+         position4 = behav_matrix_10,
+         position5 = behav_matrix_11,
+         inseqlog = behav_matrix_12,
+         performancelog = behav_matrix_13,
+         pokeEvents = behav_matrix_14,
+         frontreward = behav_matrix_15,
+         Backreward = behav_matrix_16,
+         xvalpos = behav_matrix_17,
+         yvalpos = behav_matrix_18)
 
+  
 ```
 
 
