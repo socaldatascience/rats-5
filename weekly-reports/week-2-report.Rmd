@@ -147,6 +147,11 @@ col_names <- data.frame(behavior_m[2])
 
 # Merging Ensemble Matrix and Behavior Matrix by Odor 
 
+```{r}
+
+```
+
+
 
 # Exploratory Data Analysis
 
