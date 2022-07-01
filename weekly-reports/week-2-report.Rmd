@@ -43,9 +43,10 @@ bm %>%
 ```
 
 
-```{r}
-bm %>% 
-  slice(1:nrow(bm)) %>% 
-  ggplot(aes(x = behavMatrix.1, y = behavMatrix.2)) +
-  geom_line()
-```
+### Poke Events
+
+### Cells Firing in Odor vs Outside Odor
+
+### Neurons Firing in Certain Positions 
+
+### 
