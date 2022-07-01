@@ -135,9 +135,9 @@ col_names <- data.frame(behavior_m[2])
            position_3 = as.integer(position_3),
            position_4 = as.integer(position_4),
            position_5 = as.integer(position_5),
-           in_seq_log = as.factor(in_seq_log),
-           performance_log = as.factor(performance_log),
-           poke_events = as.factor(poke_events),
+           in_seq_log = as.integer(in_seq_log),
+           performance_log = as.integer(performance_log),
+           poke_events = as.integer(poke_events),
            front_reward = as.integer(front_reward),
            back_reward = as.integer(back_reward))
   glimpse(bm)
