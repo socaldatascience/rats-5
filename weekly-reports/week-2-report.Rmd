@@ -32,7 +32,6 @@ em
 # Merging Ensemble Matrix and Behavior Matrix by Odor 
 
 
-
 # Exploratory Data Analysis
 
 ```{r}
