@@ -21,13 +21,20 @@ ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
 
 # Cleaning Data
 
+### Pulling from List
+
 ```{r}
 em <- data.frame(ensemble_m[1])
 bm <- data.frame(behavior_m[1]) 
 col_names <- data.frame(behavior_m[2])
-
-em
 ```
+
+### Renaming and Changing Types
+
+```{r}
+
+```
+
 
 # Merging Ensemble Matrix and Behavior Matrix by Odor 
 
