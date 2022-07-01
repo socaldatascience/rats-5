@@ -49,4 +49,12 @@ bm %>%
 
 ### Neurons Firing in Certain Positions 
 
-### 
+### Odor A
+
+### Odor B
+
+### Odor C
+
+### Odor D
+
+### Odor E
