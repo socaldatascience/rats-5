@@ -34,29 +34,28 @@ col_names <- data.frame(behavior_m[2])
 ### Renaming and Changing Types
 
 ```{r}
-bm <- clean_names(bm)
   bm <-
     bm %>%
-     rename(timeBin = behav_matrix_1,
-         odor1 = behav_matrix_2,
-         odor2 = behav_matrix_3,
-         odor3 = behav_matrix_4,
-         odor4 = behav_matrix_5,
-         odor5 = behav_matrix_6,
-         position1 = behav_matrix_7,
-         position2 = behav_matrix_8,
-         position3 = behav_matrix_9,
-         position4 = behav_matrix_10,
-         position5 = behav_matrix_11,
-         inseqlog = behav_matrix_12,
-         performancelog = behav_matrix_13,
-         pokeEvents = behav_matrix_14,
-         frontreward = behav_matrix_15,
-         Backreward = behav_matrix_16,
-         xvalpos = behav_matrix_17,
-         yvalpos = behav_matrix_18)
-
+     rename(time_bin = behavMatrix.1,
+         odor_1 = behavMatrix.2,
+         odor_2 = behavMatrix.3,
+         odor_3 = behavMatrix.4,
+         odor_4 = behavMatrix.5,
+         odor_5 = behavMatrix.6,
+         position_1 = behavMatrix.7,
+         position_2 = behavMatrix.8,
+         position_3 = behavMatrix.9,
+         position_4 = behavMatrix.10,
+         position_5 = behavMatrix.11,
+         in_seq_log = behavMatrix.12,
+         performance_log = behavMatrix.13,
+         poke_events = behavMatrix.14,
+         front_reward = behavMatrix.15,
+         back_reward = behavMatrix.16,
+         x_val_pos = behavMatrix.17,
+         y_val_pos = behavMatrix.18)
   
+  bm <- clean_names(bm)
 ```
 
 
@@ -67,10 +66,10 @@ bm <- clean_names(bm)
 
 ```{r}
 bm %>% 
-  select(behavMatrix.1, behavMatrix.2, behavMatrix.14) %>% 
-  ggplot(aes(x = behavMatrix.1, y = behavMatrix.14)) + 
+  select(time_bin, odor_1, poke_events) %>% 
+  ggplot(aes(x = time_bin, y = poke_events)) + 
   geom_line() +
-  geom_line(aes(x = behavMatrix.1, y = behavMatrix.2), colour = "Red")
+  geom_line(aes(x = time_bin, y = odor_1), colour = "Red")
 ```
 
 ### Poke Events
