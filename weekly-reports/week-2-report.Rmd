@@ -27,15 +27,21 @@ bm <- data.frame(behavior_m[1])
 col_names <- data.frame(behavior_m[2])
 
 em
+```
 
+# Merging Ensemble Matrix and Behavior Matrix by Odor 
+
+
+
+# Exploratory Data Analysis
+
+```{r}
 bm %>% 
   select(behavMatrix.1, behavMatrix.2, behavMatrix.14) %>% 
   ggplot(aes(x = behavMatrix.1, y = behavMatrix.14)) + 
   geom_line() +
   geom_line(aes(x = behavMatrix.1, y = behavMatrix.2), colour = "Red")
 ```
-
-
 
 
 ```{r}
