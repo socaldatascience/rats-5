@@ -233,7 +233,6 @@ odor_b_plot <- bm %>%
 odor_b_plot
 ```
 
-
 ### Odor C
 
 ```{r}
