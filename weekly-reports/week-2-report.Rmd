@@ -192,6 +192,7 @@ bm_odor_5 <-
 
 # Exploratory Data Analysis
 
+<<<<<<< HEAD
 ### Neurons Firing
 
 ```{r fig.width = 10}
@@ -213,6 +214,10 @@ data.frame(neuron = factor(names(firing_counts)),
 ### Poke Events
 
 
+=======
+### Poke Events
+
+>>>>>>> db753489fd33f40ad6f78b0cf6e692c62f450225
 ```{r}
 bm %>% 
   select(time_bin, odor_1, poke_events) %>% 
@@ -220,6 +225,7 @@ bm %>%
   geom_line() +
   geom_line(aes(x = time_bin, y = odor_1), colour = "Red")
 
+<<<<<<< HEAD
 bm %>% 
   select(time_bin, odor_2, poke_events) %>% 
   ggplot(aes(x = time_bin, y = poke_events)) + 
@@ -227,7 +233,10 @@ bm %>%
   geom_line(aes(x = time_bin, y = odor_2), colour = "Blue") 
 ```
 
+=======
+>>>>>>> db753489fd33f40ad6f78b0cf6e692c62f450225
 ### Cells Firing in Odor vs Outside Odor
+
 
 ### Neurons Firing in Certain Positions 
 
