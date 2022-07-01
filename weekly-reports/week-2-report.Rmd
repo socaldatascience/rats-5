@@ -42,7 +42,6 @@ bm %>%
   geom_line(aes(x = behavMatrix.1, y = behavMatrix.2), colour = "Red")
 ```
 
-
 ### Poke Events
 
 ### Cells Firing in Odor vs Outside Odor
