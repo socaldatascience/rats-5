@@ -19,6 +19,7 @@ library(readr)
 ```{r}
 behavior_m <- readMat(here::here("data/superchris_BM.mat"))
 ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
+behavior_info <- readMat(here::here("data/behav_info.mat"))
 ```
 
 # Cleaning Data
