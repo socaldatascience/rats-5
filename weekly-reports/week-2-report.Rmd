@@ -22,6 +22,7 @@ ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
 behavior_info <- readMat(here::here("data/behav_info.mat"))
 ```
 
+
 # Cleaning Data
 
 ### Pulling from List
@@ -144,6 +145,14 @@ col_names <- data.frame(behavior_m[2])
   glimpse(bm)
 ```
 
+# Get In-Sequence Correct Trials
+
+```{r}
+bm %>% 
+  which(odor_1 == 1, arr.ind = TRUE)
+```
+
+
 # Merging Ensemble Matrix and Behavior Matrix by Odor 
 
 ```{r}
@@ -211,6 +220,7 @@ data.frame(neuron = factor(names(firing_counts)),
                                    vjust = 0.5, 
                                    hjust = 1))
 ```
+
 ```{r}
 which(em == 1, arr.ind = TRUE) %>% 
   as.data.frame() %>% 
