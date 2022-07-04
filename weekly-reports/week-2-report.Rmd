@@ -176,8 +176,7 @@ for (i in 1:length(idx_1)) {
   }
 }
 
-all_trials$odor_1 <- idx_1 %>% na.omit()
-
+all_trials$odor_1 <- idx_1[!is.na(idx_1)]
 ```
 
 ```{r}
