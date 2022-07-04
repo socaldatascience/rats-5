@@ -151,6 +151,7 @@ col_names <- data.frame(behavior_m[2])
 # Get In-Sequence Correct Trials
 
 ```{r}
+# indices for each odor
 idx_1 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 1, arr.ind = TRUE)
 idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 2, arr.ind = TRUE)
 idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
@@ -159,6 +160,24 @@ idx_5 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$pre
 
 all_trials <- list(idx_1, idx_2, idx_3, idx_4, idx_5)
 names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
+
+# Odor 1
+selected_performance <- behavior_info$preTrialBehavMatrix[seq(6, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
+selected_durations <- behavior_info$preTrialBehavMatrix[seq(5, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
+selected_positions <- behavior_info$preTrialBehavMatrix[seq(4, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
+
+for (i in 1:length(idx_1)) {
+  if (selected_performance[i] == 0 & selected_positions[i] == 1 & selected_durations[i] > 1.05) {
+    idx_1[i] <- idx_1[i]
+  } else if (selected_performance[i] == 1 & selected_positions[i] == 1) {
+    idx_1[i] <- idx_1[i]
+  } else {
+    idx_1[i] <- NA
+  }
+}
+
+all_trials$odor_1 <- idx_1 %>% na.omit()
+
 ```
 
 ```{r}
