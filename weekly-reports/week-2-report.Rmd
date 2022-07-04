@@ -27,17 +27,6 @@ behavior_info <- readMat(here::here("data/behav_info.mat"))
 
 # Cleaning Data
 
-```{r}
-idx_1 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 1, arr.ind = TRUE)
-idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 2, arr.ind = TRUE)
-idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
-idx_4 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 4, arr.ind = TRUE)
-idx_5 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 5, arr.ind = TRUE)
-
-all_trials <- list(idx_1, idx_2, idx_3, idx_4, idx_5)
-names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
-```
-
 
 ### Pulling from List
 
@@ -160,6 +149,17 @@ col_names <- data.frame(behavior_m[2])
 ```
 
 # Get In-Sequence Correct Trials
+
+```{r}
+idx_1 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 1, arr.ind = TRUE)
+idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 2, arr.ind = TRUE)
+idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
+idx_4 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 4, arr.ind = TRUE)
+idx_5 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 5, arr.ind = TRUE)
+
+all_trials <- list(idx_1, idx_2, idx_3, idx_4, idx_5)
+names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
+```
 
 ```{r}
 all_trials <- list()
