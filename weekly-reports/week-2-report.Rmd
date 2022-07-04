@@ -162,17 +162,17 @@ names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
 ```
 
 ```{r}
-all_trials <- list()
-
-all_trials[[1]] <- which(bm$odor_1 == 1 & bm$position_1 == 1 & bm$performance_log == 1, arr.ind = TRUE)
-
-all_trials[[2]] <- which(bm$odor_2 == 1 & bm$position_2 == 1 & bm$performance_log == 1, arr.ind = TRUE)
-
-all_trials[[3]] <- which(bm$odor_3 == 1 & bm$position_3 == 1 & bm$performance_log == 1, arr.ind = TRUE)
-
-all_trials[[4]] <- which(bm$odor_4 == 1 & bm$position_4 == 1 & bm$performance_log == 1, arr.ind = TRUE)
-
-all_trials[[5]] <- which(bm$odor_5 == 1 & bm$position_5 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# all_trials <- list()
+# 
+# all_trials[[1]] <- which(bm$odor_1 == 1 & bm$position_1 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[2]] <- which(bm$odor_2 == 1 & bm$position_2 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[3]] <- which(bm$odor_3 == 1 & bm$position_3 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[4]] <- which(bm$odor_4 == 1 & bm$position_4 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[5]] <- which(bm$odor_5 == 1 & bm$position_5 == 1 & bm$performance_log == 1, arr.ind = TRUE)
 ```
 
 
