@@ -33,6 +33,9 @@ idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$pre
 idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
 idx_4 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 4, arr.ind = TRUE)
 idx_5 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 5, arr.ind = TRUE)
+
+all_trials <- list(idx_1, idx_2, idx_3, idx_4, idx_5)
+names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
 ```
 
 
