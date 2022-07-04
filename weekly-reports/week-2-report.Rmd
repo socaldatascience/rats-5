@@ -20,10 +20,21 @@ library(readr)
 behavior_m <- readMat(here::here("data/superchris_BM.mat"))
 ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
 behavior_info <- readMat(here::here("data/behav_info.mat"))
+# package can't load this version of matlab files
+# ensemble_mat <- readMat(here::here("data/SuperChris_EnsembleMatrix.mat"))
 ```
 
 
 # Cleaning Data
+
+```{r}
+idx_1 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 1, arr.ind = TRUE)
+idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 2, arr.ind = TRUE)
+idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
+idx_4 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 4, arr.ind = TRUE)
+idx_5 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 5, arr.ind = TRUE)
+```
+
 
 ### Pulling from List
 
@@ -148,8 +159,17 @@ col_names <- data.frame(behavior_m[2])
 # Get In-Sequence Correct Trials
 
 ```{r}
-bm %>% 
-  which(odor_1 == 1, arr.ind = TRUE)
+all_trials <- list()
+
+all_trials[[1]] <- which(bm$odor_1 == 1 & bm$position_1 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+
+all_trials[[2]] <- which(bm$odor_2 == 1 & bm$position_2 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+
+all_trials[[3]] <- which(bm$odor_3 == 1 & bm$position_3 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+
+all_trials[[4]] <- which(bm$odor_4 == 1 & bm$position_4 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+
+all_trials[[5]] <- which(bm$odor_5 == 1 & bm$position_5 == 1 & bm$performance_log == 1, arr.ind = TRUE)
 ```
 
 
