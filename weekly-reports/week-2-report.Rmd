@@ -247,7 +247,6 @@ bm_odor_5 <-
 # Adding Trial Column in Behavior Matrix
 
 ```{r}
-# Marking when trial starts and ends
 bm_trials <- bm %>% 
   select(time_bin, odor_1, poke_events) %>% 
   filter(poke_events != 0) %>% 
@@ -274,6 +273,28 @@ bm <- bm %>%
 em_trials <- bm %>% 
   select(time_bin, trial) %>% 
   cbind(em) 
+```
+
+
+
+```{r}
+poke_indices <- which(bm$poke_events == 1, arr.ind = T)
+
+neuron <- ncol(em)
+window_size <- 2000
+
+time <- window_size*2
+trials <- length(poke_indices)
+
+em_trial <- array(NA, dim = c(time, neuron, trials))
+
+for (i in 1:length(poke_indices)) {
+  em_trial[,,i] <- as.matrix(em[(poke_indices[i]-window_size):((poke_indices[i]+window_size)-1),])
+}
+
+trial_sums <- rowSums(em_trial, dims = 2)
+
+plot(trial_sums[,3], type = "l") 
 ```
 
 
