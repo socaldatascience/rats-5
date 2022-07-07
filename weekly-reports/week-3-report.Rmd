@@ -5,3 +5,22 @@ date: '2022-07-07'
 output: html_document
 ---
 
+# Libraries
+
+```{r}
+#install.packages("runner")
+library(tidyverse)
+library(R.matlab)
+library(janitor)
+library(readr)
+library(dplyr)
+library(runner)
+library(gridExtra)
+```
+
+# Loading in Data
+
+```{r}
+behavior_m <- readMat(here::here("data/superchris_BM.mat"))
+ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
+```
