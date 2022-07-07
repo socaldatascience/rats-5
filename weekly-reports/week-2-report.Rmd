@@ -1,0 +1,751 @@
+<<<<<<< HEAD
+=======
+---
+title: "Week 2 Report"
+author: "Giles Carlos, Alyssandrei Parinas, Cadence Pinkerton, James Owens, Mia Chiu"
+date: '2022-07-01'
+output: html_document
+---
+
+# Libraries
+
+```{r}
+#install.packages("runner")
+
+library(tidyverse)
+library(R.matlab)
+library(janitor)
+library(readr)
+library(dplyr)
+library(runner)
+```
+
+# Loading in Data
+
+```{r}
+#behavior_m <- readMat(here::here("data/superchris_BM.mat"))
+#ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
+#behavior_info <- readMat(here::here("data/behav_info.mat"))
+# package can't load this version of matlab files
+# ensemble_mat <- readMat(here::here("data/SuperChris_EnsembleMatrix.mat"))
+```
+
+
+# Cleaning Data
+
+
+### Pulling from List
+
+```{r}
+em <- data.frame(ensemble_m[1])
+bm <- data.frame(behavior_m[1]) 
+col_names <- data.frame(behavior_m[2])
+```
+
+### Renaming variables 
+
+```{r}
+  bm <-
+    bm %>%
+     rename(time_bin = behavMatrix.1,
+         odor_1 = behavMatrix.2,
+         odor_2 = behavMatrix.3,
+         odor_3 = behavMatrix.4,
+         odor_4 = behavMatrix.5,
+         odor_5 = behavMatrix.6,
+         position_1 = behavMatrix.7,
+         position_2 = behavMatrix.8,
+         position_3 = behavMatrix.9,
+         position_4 = behavMatrix.10,
+         position_5 = behavMatrix.11,
+         in_seq_log = behavMatrix.12,
+         performance_log = behavMatrix.13,
+         poke_events = behavMatrix.14,
+         front_reward = behavMatrix.15,
+         back_reward = behavMatrix.16,
+         x_val_pos = behavMatrix.17,
+         y_val_pos = behavMatrix.18)
+  
+  bm <- clean_names(bm)
+  
+  em <- 
+    em %>%
+     rename(neuron_1 = EM.1,
+            neuron_2 = EM.2,
+            neuron_3 = EM.3,
+            neuron_4 = EM.4,
+            neuron_5 = EM.5,
+            neuron_6 = EM.6,
+            neuron_7 = EM.7,
+            neuron_8 = EM.8,
+            neuron_9 = EM.9,
+            neuron_10 = EM.10,
+            neuron_11 = EM.11,
+            neuron_12 = EM.12,
+            neuron_13 = EM.13,
+            neuron_14 = EM.14,
+            neuron_15 = EM.15,
+            neuron_16 = EM.16,
+            neuron_17 = EM.17,
+            neuron_18 = EM.18,
+            neuron_19 = EM.19,
+            neuron_20 = EM.20,
+            neuron_21 = EM.21,
+            neuron_22 = EM.22,
+            neuron_23 = EM.23,
+            neuron_24 = EM.24,
+            neuron_25 = EM.25,
+            neuron_26 = EM.26,
+            neuron_27 = EM.27,
+            neuron_28 = EM.28,
+            neuron_29 = EM.29,
+            neuron_30 = EM.30,
+            neuron_31 = EM.31,
+            neuron_32 = EM.32,
+            neuron_33 = EM.33,
+            neuron_34 = EM.34,
+            neuron_35 = EM.35,
+            neuron_36 = EM.36,
+            neuron_37 = EM.37,
+            neuron_38 = EM.38,
+            neuron_39 = EM.39,
+            neuron_40 = EM.40,
+            neuron_41 = EM.41,
+            neuron_42 = EM.42,
+            neuron_43 = EM.43,
+            neuron_44 = EM.44,
+            neuron_45 = EM.45,
+            neuron_46 = EM.46,
+            neuron_47 = EM.47)
+  
+  em <- clean_names(em)
+```
+
+### changing variable types
+
+```{r}
+ range(bm$time_bin) # could use min or max function
+  unique(bm$odor_5)  
+  unique(bm$position_5) 
+  unique(bm$in_seq_log) 
+  unique(bm$performance_log) 
+  unique(bm$poke_events) 
+  unique(bm$front_reward) 
+  unique(bm$back_reward) 
+  table(bm$performance_log)
+  
+  bm <-
+    bm %>%
+    mutate(odor_1 = as.integer(odor_1),
+           odor_2 = as.integer(odor_2),
+           odor_3 = as.integer(odor_3),
+           odor_4 = as.integer(odor_4),
+           odor_5 = as.integer(odor_5),
+           position_1 = as.integer(position_1),
+           position_2 = as.integer(position_2),
+           position_3 = as.integer(position_3),
+           position_4 = as.integer(position_4),
+           position_5 = as.integer(position_5),
+           in_seq_log = as.integer(in_seq_log),
+           performance_log = as.integer(performance_log),
+           poke_events = as.integer(poke_events),
+           front_reward = as.integer(front_reward),
+           back_reward = as.integer(back_reward))
+  glimpse(bm)
+```
+
+# Get In-Sequence Correct Trials
+
+```{r}
+# indices for each odor
+idx_1 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 1, arr.ind = TRUE)
+idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 2, arr.ind = TRUE)
+idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
+idx_4 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 4, arr.ind = TRUE)
+idx_5 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 5, arr.ind = TRUE)
+
+all_trials <- list(idx_1, idx_2, idx_3, idx_4, idx_5)
+names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
+
+# Odor 1
+selected_performance <- behavior_info$preTrialBehavMatrix[seq(6, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
+selected_durations <- behavior_info$preTrialBehavMatrix[seq(5, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
+selected_positions <- behavior_info$preTrialBehavMatrix[seq(4, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
+
+for (i in 1:length(idx_1)) {
+  if (selected_performance[i] == 0 & selected_positions[i] == 1 & selected_durations[i] > 1.05) {
+    idx_1[i] <- idx_1[i]
+  } else if (selected_performance[i] == 1 & selected_positions[i] == 1) {
+    idx_1[i] <- idx_1[i] 
+  } else {
+    idx_1[i] <- NA
+  }
+}
+
+all_trials$odor_1 <- idx_1[!is.na(idx_1)]
+```
+
+```{r}
+# all_trials <- list()
+# 
+# all_trials[[1]] <- which(bm$odor_1 == 1 & bm$position_1 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[2]] <- which(bm$odor_2 == 1 & bm$position_2 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[3]] <- which(bm$odor_3 == 1 & bm$position_3 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[4]] <- which(bm$odor_4 == 1 & bm$position_4 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+# 
+# all_trials[[5]] <- which(bm$odor_5 == 1 & bm$position_5 == 1 & bm$performance_log == 1, arr.ind = TRUE)
+```
+
+
+# Merging Ensemble Matrix and Behavior Matrix by Odor 
+
+```{r}
+bm_odor_1 <- 
+  bm %>% 
+  select(time_bin, odor_1)
+
+bm_odor_1 <- 
+  cbind(bm_odor_1, em) %>% 
+  filter(odor_1 == 1)
+
+
+bm_odor_2 <- 
+  bm %>% 
+  select(time_bin, odor_2)
+
+bm_odor_2 <- 
+  cbind(bm_odor_2, em) %>% 
+  filter(odor_2 == 1)
+
+bm_odor_3 <- 
+  bm %>% 
+  select(time_bin, odor_3)
+
+bm_odor_3 <- 
+  cbind(bm_odor_3, em) %>% 
+  filter(odor_3 == 1)
+
+bm_odor_4 <- 
+  bm %>% 
+  select(time_bin, odor_4)
+
+bm_odor_4 <- 
+  cbind(bm_odor_4, em) %>% 
+  filter(odor_4 == 1)
+
+bm_odor_5 <- 
+  bm %>% 
+  select(time_bin, odor_5)
+
+bm_odor_5 <- 
+  cbind(bm_odor_5, em) %>% 
+  filter(odor_5 == 1)
+
+```
+
+# Adding Trial Column in Behavior Matrix
+
+```{r}
+bm_trials <- bm %>% 
+  select(time_bin, odor_1, poke_events) %>% 
+  filter(poke_events != 0) %>% 
+  mutate(poke_events = case_when(poke_events != 0 ~ 1,
+                                 poke_events == 0 ~ 0)) %>% 
+  mutate(trial = as.integer(ceiling(cumsum(poke_events) / 2))) %>% 
+  select(time_bin, trial) 
+
+bm <- bm %>% 
+  left_join(bm_trials, by = c("time_bin")) 
+  
+bm_trials %>% 
+  tail()
+
+# Filling in gaps between trial start and trial end
+bm <- bm %>% 
+  mutate(trial = runner::fill_run(trial, only_within = TRUE)) %>% 
+  replace_na(list(trial = 0))
+```
+
+# Merging Trials and Time with Ensemble Matrix (Neurons)
+
+```{r}
+em_trials <- bm %>% 
+  select(time_bin, trial, odor_1, odor_2, odor_3, odor_4, odor_5) %>% 
+  cbind(em) 
+```
+
+
+
+```{r}
+poke_indices <- which(bm$poke_events == 1, arr.ind = T)
+
+neuron <- ncol(em)
+window_size <- 2000
+
+time <- window_size*2
+trials <- length(poke_indices)
+
+em_trial <- array(NA, dim = c(time, neuron, trials))
+
+for (i in 1:length(poke_indices)) {
+  em_trial[,,i] <- as.matrix(em[(poke_indices[i]-window_size):((poke_indices[i]+window_size)-1),])
+}
+
+trial_sums <- rowSums(em_trial, dims = 2)
+
+plot(trial_sums[,3], type = "l") 
+```
+
+
+# Exploratory Data Analysis
+
+### Neurons Firing Bar Plot
+
+```{r fig.width = 10}
+firing_counts <- em %>% 
+  colSums()
+
+data.frame(neuron = factor(names(firing_counts)), 
+           firing_counts) %>%
+  arrange(desc(firing_counts)) %>% 
+  ggplot(aes(reorder(neuron, -firing_counts), firing_counts)) + 
+  geom_col() +
+  labs(title = "Session Spike Counts", 
+       x = "Neuron", 
+       y = "Number of Spikes") +
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust = 1))
+```
+
+### Raster Plot Displaying How Neurons Fire Over Time
+
+```{r}
+which(em == 1, arr.ind = TRUE) %>% 
+  as.data.frame() %>% 
+  ggplot(aes(x = row, y = col)) +
+  geom_point(shape = 0, size = 0.001) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(title = "Raster Plot", 
+       x = "Time (ms)",
+       y = "Neuron Number")
+
+which(em == 1, arr.ind = TRUE) %>% 
+  as.data.frame() %>% 
+  filter(row < 100000) %>% 
+  ggplot(aes(x = row, y = col)) +
+  geom_point(shape = 0, size = 0.001) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(title = "Raster Plot with Shorter Duration", 
+       x = "Time (ms)",
+       y = "Neuron Number")
+```
+
+### Exploring Neuron 2
+
+__Examining Firing Patterns Over Sequences of Trials Using Raster Plot__
+
+```{r fig.height = 3}
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1)
+
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin, y = trial, z = neuron_2)) +
+  geom_point(shape = 0, size = 1) +
+  scale_y_discrete(limits = c("1":"250")) +
+  labs(x = "Time (MS)", 
+       y = "Trial Number", 
+       title = "Neuron 2 Firing Across Trials") +
+  theme(legend.position = "none", 
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run") 
+
+```
+
+__Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
+
+```{r}
+em_trials %>% 
+  select(time_bin, trial, neuron_15) %>% 
+  filter(trial != 0 & neuron_15 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run") 
+
+
+odor_1_trials <- em_trials %>% 
+  filter(odor_1 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_2_trials <- em_trials %>% 
+  filter(odor_2 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_3_trials <- em_trials %>% 
+  filter(odor_3 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_4_trials <- em_trials %>% 
+  filter(odor_4 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_5_trials <- em_trials %>% 
+  filter(odor_5 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+em_trials %>% 
+  filter(trial %in% odor_1_trials) %>% 
+  select(time_bin, trial, odor_1, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1") 
+
+
+
+em_trials %>% 
+  filter(trial %in% odor_2_trials) %>% 
+  select(time_bin, trial, odor_2, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2") 
+
+em_trials %>% 
+  filter(trial %in% odor_3_trials) %>% 
+  select(time_bin, trial, odor_3, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3") 
+
+em_trials %>% 
+  filter(trial %in% odor_4_trials) %>% 
+  select(time_bin, trial, odor_4, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4") 
+
+em_trials %>% 
+  filter(trial %in% odor_5_trials) %>% 
+  select(time_bin, trial, odor_5, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5") 
+```
+
+__Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
+
+
+```{r}
+em_trials %>% 
+  filter(trial %in% odor_1_trials) %>% 
+  select(time_bin, trial, odor_1, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 1") 
+
+
+
+em_trials %>% 
+  filter(trial %in% odor_2_trials) %>% 
+  select(time_bin, trial, odor_2, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 2") 
+
+em_trials %>% 
+  filter(trial %in% odor_3_trials) %>% 
+  select(time_bin, trial, odor_3, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 3") 
+
+em_trials %>% 
+  filter(trial %in% odor_4_trials) %>% 
+  select(time_bin, trial, odor_4, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 4") 
+
+em_trials %>% 
+  filter(trial %in% odor_5_trials) %>% 
+  select(time_bin, trial, odor_5, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 5") 
+```
+
+
+
+```{r}
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  ggplot(aes(x = time_bin, y = trial, z = neuron_2, color = as.factor(trial))) +
+  geom_point(shape = 0, size = 1) +
+  scale_y_discrete(limits = c("1":"250")) +
+  labs(x = "Time (MS)", 
+       y = "Trial Number", 
+       title = "Neuron 2 Firing Across Trials") +
+  theme(legend.position = "none", 
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial > 0 & trial <= 50 & neuron_2 == 1) %>% 
+  ggplot(aes(x = time_bin, y = trial, z = neuron_2, color = as.factor(trial))) +
+  geom_point(shape = 0, size = 1) +
+  scale_y_discrete(limits = c("1":"50")) +
+  labs(x = "Time (MS)", 
+       y = "Trial Number", 
+       title = "Neuron 2 Firing Across Trials (Zoomed In)") +
+  theme(legend.position = "none")
+
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial > 0 & trial <= 10 & neuron_2 == 1) %>% 
+  ggplot(aes(x = time_bin, y = trial, z = neuron_2, color = as.factor(trial))) +
+  geom_point(shape = 0, size = 1) +
+  scale_y_discrete(limits = c("1":"10")) +
+  labs(x = "Time (MS)", 
+       y = "Trial Number", 
+       title = "Neuron 2 Firing Across Trials (Zoomed In Even More)")
+```
+
+__Examining Firing Patterns of Neuron 2 Using Bar Plots__
+
+```{r}
+em_trials %>% 
+  select(trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  ggplot(aes(x = as.factor(trial))) + 
+  geom_bar() +
+  theme(legend.position = "none", 
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+em_trials %>% 
+  select(trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  ggplot(aes(x = as.factor(trial))) + 
+  geom_bar() +
+  scale_x_discrete(limits = c("1":"50"))
+  
+em_trials %>% 
+  select(trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  ggplot(aes(x = as.factor(trial))) + 
+  geom_bar() +
+  scale_x_discrete(limits = c("1":"10"))
+```
+
+```{r}
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>%
+  group_by(trial) %>% 
+  count(trial) %>% 
+  arrange(desc(n)) %>% 
+  rename(firing_count = n) %>% 
+  head()
+```
+
+Neuron 2 consistently fires across all trials but it also appears to fire when poke event hasn't even occurred. Neuron 2 appears to be firing consistently throughout the whole experiment. 
+
+
+### Peristimilus Histogram
+
+```{r}
+poke_indices <- which(bm$poke_events == 1, arr.ind = T)
+
+neuron <- ncol(em)
+window_size <- 2000
+time <- window_size*2
+trials <- length(poke_indices)
+
+em_trial <- array(NA, dim = c(time, neuron, trials))
+
+for (i in 1:length(poke_indices)) {
+  em_trial[,,i] <- as.matrix(em[(poke_indices[i]-window_size):((poke_indices[i]+window_size)-1),])
+}
+
+trial_sums <- rowSums(em_trial, dims = 2)
+plot(trial_sums[,2], type = "l") 
+
+```
+
+
+
+
+
+
+
+### Poke Events
+
+
+```{r}
+bm %>% 
+  select(time_bin, odor_1, poke_events) %>% 
+  ggplot(aes(x = time_bin, y = poke_events)) + 
+  geom_line() +
+  geom_line(aes(x = time_bin, y = odor_1), colour = "Red")
+
+bm %>% 
+  select(time_bin, odor_1, odor_2, odor_3, odor_4, odor_5, poke_events) %>% 
+  filter(time_bin > 2500 & time_bin < 3000) %>% 
+  ggplot(aes(x = time_bin, y = poke_events)) + 
+  geom_line() +
+  geom_line(aes(x = time_bin, y = odor_1), colour = "Red") +
+  geom_line(aes(x = time_bin, y = odor_2), colour = "Orange") +
+  geom_line(aes(x = time_bin, y = odor_3), colour = "Green")
+  geom_line(aes(x = time_bin, y = odor_4), colour = "Blue")
+  geom_line(aes(x = time_bin, y = odor_5), colour = "Purple")
+
+```
+
+### Cells Firing in Odor vs Outside Odor
+
+### Neurons Firing in Certain Positions 
+
+### Odor A
+
+```{r}
+odor_a_plot <- bm %>% 
+  select(time_bin, odor_1) %>% 
+  ggplot(aes(x = time_bin, y = odor_1)) + 
+  geom_line() +
+  labs(x = "Time",
+       y = "Odor A")
+
+odor_a_plot
+```
+
+### Odor B
+
+```{r}
+odor_b_plot <- bm %>% 
+  select(time_bin, odor_2) %>% 
+  ggplot(aes(x = time_bin, y = odor_2)) + 
+  geom_line()  +
+  labs(x = "Time",
+       y = "Odor B")
+
+odor_b_plot
+```
+
+### Odor C
+
+```{r}
+odor_c_plot <- bm %>% 
+  select(time_bin, odor_3) %>% 
+  ggplot(aes(x = time_bin, y = odor_3)) + 
+  geom_line()  +
+  labs(x = "Time",
+       y = "Odor C")
+
+odor_c_plot
+```
+
+### Odor D
+
+```{r}
+odor_d_plot <- bm %>% 
+  select(time_bin, odor_4) %>% 
+  ggplot(aes(x = time_bin, y = odor_4)) + 
+  geom_line()  +
+  labs(x = "Time",
+       y = "Odor D")
+
+odor_d_plot
+```
+
+### Odor E
+
+```{r}
+odor_e_plot <- bm %>% 
+  select(time_bin, odor_5) %>% 
+  ggplot(aes(x = time_bin, y = odor_5)) + 
+  geom_line()  +
+  labs(x = "Time",
+       y = "Odor E")
+
+odor_e_plot
+```
+
+>>>>>>> e211d2ded1bb688ae2cbec2d3ed388385299024d
