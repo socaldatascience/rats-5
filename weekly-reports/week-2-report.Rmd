@@ -16,6 +16,7 @@ library(janitor)
 library(readr)
 library(dplyr)
 library(runner)
+library(gridExtra)
 ```
 
 # Loading in Data
@@ -381,7 +382,7 @@ em_trials %>%
 
 __Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
 
-```{r}
+```{r fig.height = 8, fig.width = 10}
 em_trials %>% 
   select(time_bin, trial, neuron_15) %>% 
   filter(trial != 0 & neuron_15 == 1) %>% 
@@ -419,7 +420,7 @@ odor_5_trials <- em_trials %>%
   select(trial) %>% 
   pull()
 
-em_trials %>% 
+neuron_15_spikes_o1 <- em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
   select(time_bin, trial, odor_1, neuron_15) %>% 
   group_by(trial) %>% 
@@ -433,7 +434,7 @@ em_trials %>%
 
 
 
-em_trials %>% 
+neuron_15_spikes_o2 <- em_trials %>% 
   filter(trial %in% odor_2_trials) %>% 
   select(time_bin, trial, odor_2, neuron_15) %>% 
   group_by(trial) %>% 
@@ -445,7 +446,7 @@ em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2") 
 
-em_trials %>% 
+neuron_15_spikes_o3 <- em_trials %>% 
   filter(trial %in% odor_3_trials) %>% 
   select(time_bin, trial, odor_3, neuron_15) %>% 
   group_by(trial) %>% 
@@ -457,7 +458,7 @@ em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3") 
 
-em_trials %>% 
+neuron_15_spikes_o4 <- em_trials %>% 
   filter(trial %in% odor_4_trials) %>% 
   select(time_bin, trial, odor_4, neuron_15) %>% 
   group_by(trial) %>% 
@@ -469,7 +470,7 @@ em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4") 
 
-em_trials %>% 
+neuron_15_spikes_o5 <- em_trials %>% 
   filter(trial %in% odor_5_trials) %>% 
   select(time_bin, trial, odor_5, neuron_15) %>% 
   group_by(trial) %>% 
@@ -480,13 +481,22 @@ em_trials %>%
   labs(x = "Time (MS)",
        y = "Firing Count", 
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5") 
+
+grid.arrange(neuron_15_spikes_o1, 
+             neuron_15_spikes_o2, 
+             neuron_15_spikes_o3,
+             neuron_15_spikes_o4,
+             neuron_15_spikes_o5,
+             nrow = 2, 
+             ncol = 3)
+
 ```
 
 __Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
 
 
-```{r}
-em_trials %>% 
+```{r fig.height = 8, fig.width = 10}
+neuron_36_spikes_o1 <- em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
   select(time_bin, trial, odor_1, neuron_36) %>% 
   group_by(trial) %>% 
@@ -500,7 +510,7 @@ em_trials %>%
 
 
 
-em_trials %>% 
+neuron_36_spikes_o2 <- em_trials %>% 
   filter(trial %in% odor_2_trials) %>% 
   select(time_bin, trial, odor_2, neuron_36) %>% 
   group_by(trial) %>% 
@@ -512,7 +522,7 @@ em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 2") 
 
-em_trials %>% 
+neuron_36_spikes_o3 <- em_trials %>% 
   filter(trial %in% odor_3_trials) %>% 
   select(time_bin, trial, odor_3, neuron_36) %>% 
   group_by(trial) %>% 
@@ -524,7 +534,7 @@ em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 3") 
 
-em_trials %>% 
+neuron_36_spikes_o4 <- em_trials %>% 
   filter(trial %in% odor_4_trials) %>% 
   select(time_bin, trial, odor_4, neuron_36) %>% 
   group_by(trial) %>% 
@@ -536,7 +546,7 @@ em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 4") 
 
-em_trials %>% 
+neuron_36_spikes_o5 <- em_trials %>% 
   filter(trial %in% odor_5_trials) %>% 
   select(time_bin, trial, odor_5, neuron_36) %>% 
   group_by(trial) %>% 
@@ -547,6 +557,15 @@ em_trials %>%
   labs(x = "Time (MS)",
        y = "Firing Count", 
        title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 5") 
+
+grid.arrange(neuron_36_spikes_o1, 
+             neuron_36_spikes_o2, 
+             neuron_36_spikes_o3,
+             neuron_36_spikes_o4,
+             neuron_36_spikes_o5,
+             nrow = 2, 
+             ncol = 3)
+
 ```
 
 
