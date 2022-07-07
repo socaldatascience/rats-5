@@ -271,7 +271,7 @@ bm <- bm %>%
 
 ```{r}
 em_trials <- bm %>% 
-  select(time_bin, trial) %>% 
+  select(time_bin, trial, odor_1, odor_2, odor_3, odor_4, odor_5) %>% 
   cbind(em) 
 ```
 
@@ -345,6 +345,49 @@ which(em == 1, arr.ind = TRUE) %>%
 ### Exploring Neuron 2
 
 __Examining Firing Patterns Over Sequences of Trials Using Raster Plot__
+
+```{r fig.height = 3}
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1)
+
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin, y = trial, z = neuron_2)) +
+  geom_point(shape = 0, size = 1) +
+  scale_y_discrete(limits = c("1":"250")) +
+  labs(x = "Time (MS)", 
+       y = "Trial Number", 
+       title = "Neuron 2 Firing Across Trials") +
+  theme(legend.position = "none", 
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+em_trials %>% 
+  select(time_bin, trial, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run") 
+
+```
+
+__Examining Firing Patterns Over Sequences of Trials By Odor__
+
+```{r}
+em_trials %>% 
+  select(time_bin, trial, odor_1, odor_2, odor_3, odor_4, odor_5, neuron_2) %>% 
+  filter(trial != 0 & neuron_2 == 1 & odor_1 == 1)
+```
+
+
 
 ```{r}
 em_trials %>% 
