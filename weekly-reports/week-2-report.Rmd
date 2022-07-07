@@ -506,7 +506,7 @@ neuron_2_spikes_o1 <- em_trials %>%
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 1") 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run for Odor 1") 
 
 
 
@@ -520,7 +520,7 @@ neuron_2_spikes_o2 <- em_trials %>%
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 2") 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run for Odor 2") 
 
 neuron_2_spikes_o3 <- em_trials %>% 
   filter(trial %in% odor_3_trials) %>% 
@@ -532,7 +532,7 @@ neuron_2_spikes_o3 <- em_trials %>%
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 3") 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run for Odor 3") 
 
 neuron_2_spikes_o4 <- em_trials %>% 
   filter(trial %in% odor_4_trials) %>% 
@@ -544,7 +544,7 @@ neuron_2_spikes_o4 <- em_trials %>%
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 4") 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run for Odor 4") 
 
 neuron_2_spikes_o5 <- em_trials %>% 
   filter(trial %in% odor_5_trials) %>% 
@@ -556,7 +556,7 @@ neuron_2_spikes_o5 <- em_trials %>%
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 5") 
+       title = "Firing Counts of Neuron 2 Throughout Trial Run for Odor 5") 
 
 grid.arrange(neuron_2_spikes_o1, 
              neuron_2_spikes_o2, 
