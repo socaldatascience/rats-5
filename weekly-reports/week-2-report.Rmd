@@ -383,8 +383,79 @@ __Examining Firing Patterns Over Sequences of Trials By Odor__
 
 ```{r}
 em_trials %>% 
-  select(time_bin, trial, odor_1, odor_2, odor_3, odor_4, odor_5, neuron_2) %>% 
-  filter(trial != 0 & neuron_2 == 1 & odor_1 == 1)
+  select(time_bin, trial, neuron_15) %>% 
+  filter(trial != 0 & neuron_15 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run") 
+
+
+odor_1_trials <- em_trials %>% 
+  filter(odor_1 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_2_trials <- em_trials %>% 
+  filter(odor_2 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_3_trials <- em_trials %>% 
+  filter(odor_3 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_4_trials <- em_trials %>% 
+  filter(odor_4 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_5_trials <- em_trials %>% 
+  filter(odor_5 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+em_trials %>% 
+  filter(trial %in% odor_1_trials) %>% 
+  select(time_bin, trial, odor_1, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1") 
+
+
+
+em_trials %>% 
+  filter(trial %in% odor_2_trials) %>% 
+  select(time_bin, trial, odor_2, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2") 
+
+em_trials %>% 
+  filter(trial %in% odor_3_trials) %>% 
+  select(time_bin, trial, odor_3, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3") 
 ```
 
 
