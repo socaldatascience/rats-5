@@ -1,6 +1,6 @@
 ---
 title: "Week 3 Report"
-author: "Giles Carlos"
+author: "Giles Carlos, Mia Chiu, Alyssandrei Parinas, Cadence Pinkerton, James Owens"
 date: '2022-07-07'
 output: html_document
 ---
@@ -213,7 +213,8 @@ odor_5_trials <- em_trials %>%
 
 __Example Neuron to Find Firing Patterns for a Specific Odor__
 
-```{r fig.height = 8, fig.width = 10}
+
+```{r fig.height = 24, fig.width = 8}
 # in em_trials, filter where the trial column exists in the appropriate vector of trial numbers
 # Example: filter where trial number is in the odor_1_trials vector
 # this grabs all the rows when odor 1 was presented
@@ -233,9 +234,14 @@ neuron_15_spikes_o1 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
+<<<<<<< HEAD
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1") +
   scale_y_continuous(limits = c(0,85)) +
   scale_x_continuous(limits = c(0,1.7))
+=======
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1")  +
+  scale_y_continuous(limits = c(0, 85))
+>>>>>>> e1755de16b99da883cc3e401abd3afe6a78cad77
 
 neuron_15_spikes_o2 <-
   em_trials %>% 
@@ -248,9 +254,14 @@ neuron_15_spikes_o2 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
+<<<<<<< HEAD
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2") +
   scale_y_continuous(limits = c(0,85)) +
   scale_x_continuous(limits = c(0,1.7))
+=======
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2")  +
+  scale_y_continuous(limits = c(0, 85))
+>>>>>>> e1755de16b99da883cc3e401abd3afe6a78cad77
 
 neuron_15_spikes_o3 <-
   em_trials %>% 
@@ -263,9 +274,14 @@ neuron_15_spikes_o3 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
+<<<<<<< HEAD
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3") +
   scale_y_continuous(limits = c(0,85)) +
   scale_x_continuous(limits = c(0,1.7))
+=======
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3")  +
+  scale_y_continuous(limits = c(0, 85))
+>>>>>>> e1755de16b99da883cc3e401abd3afe6a78cad77
 
 neuron_15_spikes_o4 <-
   em_trials %>% 
@@ -278,9 +294,14 @@ neuron_15_spikes_o4 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
+<<<<<<< HEAD
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4") +
   scale_y_continuous(limits = c(0,85)) +
   scale_x_continuous(limits = c(0,1.7))
+=======
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4")  +
+  scale_y_continuous(limits = c(0, 85))
+>>>>>>> e1755de16b99da883cc3e401abd3afe6a78cad77
 
 neuron_15_spikes_o5 <-
   em_trials %>% 
@@ -293,9 +314,14 @@ neuron_15_spikes_o5 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
+<<<<<<< HEAD
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5") +
   scale_y_continuous(limits = c(0,85)) +
   scale_x_continuous(limits = c(0,1.7))
+=======
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5")  +
+  scale_y_continuous(limits = c(0, 85))
+>>>>>>> e1755de16b99da883cc3e401abd3afe6a78cad77
 
 # combine plots of the neuron and each odor into one plot
 grid.arrange(neuron_15_spikes_o1, 
@@ -303,8 +329,7 @@ grid.arrange(neuron_15_spikes_o1,
              neuron_15_spikes_o3,
              neuron_15_spikes_o4,
              neuron_15_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
 
@@ -1180,6 +1205,85 @@ grid.arrange(neuron_24_spikes_o1,
              ncol = 3)
 ```
 ### Nuerons 25 to 36 (Adie)
+
+```{r fig.height = 8, fig.width = 10}
+neuron_36_spikes_o1 <-
+  em_trials %>% 
+  filter(trial %in% odor_1_trials) %>% 
+  select(time_bin, trial, odor_1, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 1") 
+
+neuron_36_spikes_o2 <-
+  em_trials %>% 
+  filter(trial %in% odor_2_trials) %>% 
+  select(time_bin, trial, odor_2, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 2") 
+
+neuron_36_spikes_o3 <-
+  em_trials %>% 
+  filter(trial %in% odor_3_trials) %>% 
+  select(time_bin, trial, odor_3, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 3") 
+
+neuron_36_spikes_o4 <-
+  em_trials %>% 
+  filter(trial %in% odor_4_trials) %>% 
+  select(time_bin, trial, odor_4, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 4") 
+
+neuron_36_spikes_o5 <-
+  em_trials %>% 
+  filter(trial %in% odor_5_trials) %>% 
+  select(time_bin, trial, odor_5, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 5") 
+
+
+grid.arrange(neuron_36_spikes_o1, 
+             neuron_36_spikes_o2, 
+             neuron_36_spikes_o3,
+             neuron_36_spikes_o4,
+             neuron_36_spikes_o5,
+             nrow = 2, 
+             ncol = 3)
+
+# Neuron 28, 34 and 35 has patterns.
+# Neuron 32 is weird because for Odor 4, that Neuron is constantly spiking throughout the trial. 
+```
 
 
 
