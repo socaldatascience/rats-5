@@ -1353,8 +1353,8 @@ grid.arrange(neuron_25_spikes_o1,
 # For Neuron 28, it's better to use 17 or 18 for y scale.
 # For Neuron 34, there's a pattern, but in Odor 1, there are times when it's not fired. Use 50 as y scale.
 # For Neuron 35, use 30 as y scale.
-# Neuro 29 has a pattern too, use 40 for y scale.
-# Neuron 30 - 32 are weird since it is not fired/no activity at all during the time of trial.
+# Neuron 29 has a pattern too, use 40 for y scale.
+# Neurons 30 - 32 are weird since it is not fired/no activity at all during the time of trial.
 ```
 
 
