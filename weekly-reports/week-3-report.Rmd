@@ -389,7 +389,12 @@ grid.arrange(neuron_36_spikes_o1,
              neuron_36_spikes_o5,
              nrow = 2, 
              ncol = 3)
+
+# Neuron 28, 34 and 35 has patterns.
+# Neuron 32 is weird because for Odor 4, that Neuron is constantly spiking throughout the trial. 
 ```
+
+
 
 ### Neurons 37 to 47 (Mia)
 
