@@ -224,6 +224,14 @@ odor_5_trials <- em_trials %>%
 __Example Neuron to Find Firing Patterns for a Specific Odor__
 
 ```{r fig.height = 8, fig.width = 10}
+# in em_trials, filter where the trial column exists in the appropriate vector of trial numbers
+# Example: filter where trial number is in the odor_1_trials vector
+# this grabs all the rows when odor 1 was presented
+# select the time, trial number, and a specific neuron
+# filter when trial is actually happening (not 0) and when the neuron is fired 
+# group by the trial number
+# make sure time starts at 0 for each trial
+
 neuron_15_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
