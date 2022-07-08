@@ -319,7 +319,7 @@ grid.arrange(neuron_15_spikes_o1,
 
 ### Neurons 13 to 24 (James)
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_13_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -401,11 +401,10 @@ grid.arrange(neuron_13_spikes_o1,
              neuron_13_spikes_o3,
              neuron_13_spikes_o4,
              neuron_13_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_14_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -488,11 +487,96 @@ grid.arrange(neuron_14_spikes_o1,
              neuron_14_spikes_o3,
              neuron_14_spikes_o4,
              neuron_14_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
+```
+```{r fig.height = 8, fig.width = 32}
+neuron_15_spikes_o1 <-
+  em_trials %>% 
+  filter(trial %in% odor_1_trials) %>% 
+  select(time_bin, trial, odor_1, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1") +
+  scale_y_continuous(limits = c(0,85)) +
+  scale_x_continuous(limits = c(0,1.7))
+       
+neuron_15_spikes_o2 <-
+  em_trials %>% 
+  filter(trial %in% odor_2_trials) %>% 
+  select(time_bin, trial, odor_2, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2") +
+  scale_y_continuous(limits = c(0,85)) +
+  scale_x_continuous(limits = c(0,1.7))
+
+
+neuron_15_spikes_o3 <-
+  em_trials %>% 
+  filter(trial %in% odor_3_trials) %>% 
+  select(time_bin, trial, odor_3, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3") +
+  scale_y_continuous(limits = c(0,85)) +
+  scale_x_continuous(limits = c(0,1.7))
+
+
+neuron_15_spikes_o4 <-
+  em_trials %>% 
+  filter(trial %in% odor_4_trials) %>% 
+  select(time_bin, trial, odor_4, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4") +
+  scale_y_continuous(limits = c(0,85)) +
+  scale_x_continuous(limits = c(0,1.7))
+
+
+neuron_15_spikes_o5 <-
+  em_trials %>% 
+  filter(trial %in% odor_5_trials) %>% 
+  select(time_bin, trial, odor_5, neuron_15) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_15 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5") +
+  scale_y_continuous(limits = c(0,85)) +
+  scale_x_continuous(limits = c(0,1.7))
+
+grid.arrange(neuron_15_spikes_o1, 
+             neuron_15_spikes_o2, 
+             neuron_15_spikes_o3,
+             neuron_15_spikes_o4,
+             neuron_15_spikes_o5,
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_16_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -574,11 +658,10 @@ grid.arrange(neuron_16_spikes_o1,
              neuron_16_spikes_o3,
              neuron_16_spikes_o4,
              neuron_16_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_17_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -650,11 +733,10 @@ grid.arrange(neuron_17_spikes_o1,
              neuron_17_spikes_o3,
              neuron_17_spikes_o4,
              neuron_17_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_18_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -726,11 +808,10 @@ grid.arrange(neuron_18_spikes_o1,
              neuron_18_spikes_o3,
              neuron_18_spikes_o4,
              neuron_18_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_19_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -802,11 +883,10 @@ grid.arrange(neuron_19_spikes_o1,
              neuron_19_spikes_o3,
              neuron_19_spikes_o4,
              neuron_19_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_20_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -878,11 +958,10 @@ grid.arrange(neuron_20_spikes_o1,
              neuron_20_spikes_o3,
              neuron_20_spikes_o4,
              neuron_20_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
  
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_21_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -954,11 +1033,10 @@ grid.arrange(neuron_21_spikes_o1,
              neuron_21_spikes_o3,
              neuron_21_spikes_o4,
              neuron_21_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_22_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -1030,11 +1108,10 @@ grid.arrange(neuron_22_spikes_o1,
              neuron_22_spikes_o3,
              neuron_22_spikes_o4,
              neuron_22_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_23_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -1106,12 +1183,11 @@ grid.arrange(neuron_23_spikes_o1,
              neuron_23_spikes_o3,
              neuron_23_spikes_o4,
              neuron_23_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
 
-```{r fig.height = 8, fig.width = 10}
+```{r fig.height = 8, fig.width = 32}
 neuron_24_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -1183,8 +1259,7 @@ grid.arrange(neuron_24_spikes_o1,
              neuron_24_spikes_o3,
              neuron_24_spikes_o4,
              neuron_24_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
 ### Nuerons 25 to 36 (Adie)
