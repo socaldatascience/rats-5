@@ -11,7 +11,6 @@ output: html_document
 
 ```{r}
 #install.packages("runner")
-
 library(tidyverse)
 library(R.matlab)
 library(janitor)
@@ -46,9 +45,9 @@ col_names <- data.frame(behavior_m[2])
 ### Renaming variables 
 
 ```{r}
-  bm <-
-    bm %>%
-     rename(time_bin = behavMatrix.1,
+bm <-
+  bm %>%
+  rename(time_bin = behavMatrix.1,
          odor_1 = behavMatrix.2,
          odor_2 = behavMatrix.3,
          odor_3 = behavMatrix.4,
@@ -67,98 +66,102 @@ col_names <- data.frame(behavior_m[2])
          x_val_pos = behavMatrix.17,
          y_val_pos = behavMatrix.18)
   
-  bm <- clean_names(bm)
+bm <- clean_names(bm)
   
-  em <- 
-    em %>%
-     rename(neuron_1 = EM.1,
-            neuron_2 = EM.2,
-            neuron_3 = EM.3,
-            neuron_4 = EM.4,
-            neuron_5 = EM.5,
-            neuron_6 = EM.6,
-            neuron_7 = EM.7,
-            neuron_8 = EM.8,
-            neuron_9 = EM.9,
-            neuron_10 = EM.10,
-            neuron_11 = EM.11,
-            neuron_12 = EM.12,
-            neuron_13 = EM.13,
-            neuron_14 = EM.14,
-            neuron_15 = EM.15,
-            neuron_16 = EM.16,
-            neuron_17 = EM.17,
-            neuron_18 = EM.18,
-            neuron_19 = EM.19,
-            neuron_20 = EM.20,
-            neuron_21 = EM.21,
-            neuron_22 = EM.22,
-            neuron_23 = EM.23,
-            neuron_24 = EM.24,
-            neuron_25 = EM.25,
-            neuron_26 = EM.26,
-            neuron_27 = EM.27,
-            neuron_28 = EM.28,
-            neuron_29 = EM.29,
-            neuron_30 = EM.30,
-            neuron_31 = EM.31,
-            neuron_32 = EM.32,
-            neuron_33 = EM.33,
-            neuron_34 = EM.34,
-            neuron_35 = EM.35,
-            neuron_36 = EM.36,
-            neuron_37 = EM.37,
-            neuron_38 = EM.38,
-            neuron_39 = EM.39,
-            neuron_40 = EM.40,
-            neuron_41 = EM.41,
-            neuron_42 = EM.42,
-            neuron_43 = EM.43,
-            neuron_44 = EM.44,
-            neuron_45 = EM.45,
-            neuron_46 = EM.46,
-            neuron_47 = EM.47)
+em <- 
+  em %>%
+  rename(neuron_1 = EM.1,
+         neuron_2 = EM.2,
+         neuron_3 = EM.3,
+         neuron_4 = EM.4,
+         neuron_5 = EM.5,
+         neuron_6 = EM.6,
+         neuron_7 = EM.7,
+         neuron_8 = EM.8,
+         neuron_9 = EM.9,
+         neuron_10 = EM.10,
+         neuron_11 = EM.11,
+         neuron_12 = EM.12,
+         neuron_13 = EM.13,
+         neuron_14 = EM.14,
+         neuron_15 = EM.15,
+         neuron_16 = EM.16,
+         neuron_17 = EM.17,
+         neuron_18 = EM.18,
+         neuron_19 = EM.19,
+         neuron_20 = EM.20,
+         neuron_21 = EM.21,
+         neuron_22 = EM.22,
+         neuron_23 = EM.23,
+         neuron_24 = EM.24,
+         neuron_25 = EM.25,
+         neuron_26 = EM.26,
+         neuron_27 = EM.27,
+         neuron_28 = EM.28,
+         neuron_29 = EM.29,
+         neuron_30 = EM.30,
+         neuron_31 = EM.31,
+         neuron_32 = EM.32,
+         neuron_33 = EM.33,
+         neuron_34 = EM.34,
+         neuron_35 = EM.35,
+         neuron_36 = EM.36,
+         neuron_37 = EM.37,
+         neuron_38 = EM.38,
+         neuron_39 = EM.39,
+         neuron_40 = EM.40,
+         neuron_41 = EM.41,
+         neuron_42 = EM.42,
+         neuron_43 = EM.43,
+         neuron_44 = EM.44,
+         neuron_45 = EM.45,
+         neuron_46 = EM.46,
+         neuron_47 = EM.47)
   
-  em <- clean_names(em)
+em <- clean_names(em)
 ```
 
 ### changing variable types
 
 ```{r}
- range(bm$time_bin) # could use min or max function
-  unique(bm$odor_5)  
-  unique(bm$position_5) 
-  unique(bm$in_seq_log) 
-  unique(bm$performance_log) 
-  unique(bm$poke_events) 
-  unique(bm$front_reward) 
-  unique(bm$back_reward) 
-  table(bm$performance_log)
+range(bm$time_bin) # could use min or max function
+unique(bm$odor_5)  
+unique(bm$position_5) 
+unique(bm$in_seq_log) 
+unique(bm$performance_log) 
+unique(bm$poke_events) 
+unique(bm$front_reward) 
+unique(bm$back_reward) 
+table(bm$performance_log)
   
-  bm <-
-    bm %>%
-    mutate(odor_1 = as.integer(odor_1),
-           odor_2 = as.integer(odor_2),
-           odor_3 = as.integer(odor_3),
-           odor_4 = as.integer(odor_4),
-           odor_5 = as.integer(odor_5),
-           position_1 = as.integer(position_1),
-           position_2 = as.integer(position_2),
-           position_3 = as.integer(position_3),
-           position_4 = as.integer(position_4),
-           position_5 = as.integer(position_5),
-           in_seq_log = as.integer(in_seq_log),
-           performance_log = as.integer(performance_log),
-           poke_events = as.integer(poke_events),
-           front_reward = as.integer(front_reward),
-           back_reward = as.integer(back_reward))
-  glimpse(bm)
+bm <-
+  bm %>%
+  mutate(odor_1 = as.integer(odor_1),
+         odor_2 = as.integer(odor_2),
+         odor_3 = as.integer(odor_3),
+         odor_4 = as.integer(odor_4),
+         odor_5 = as.integer(odor_5),
+         position_1 = as.integer(position_1),
+         position_2 = as.integer(position_2),
+         position_3 = as.integer(position_3),
+         position_4 = as.integer(position_4),
+         position_5 = as.integer(position_5),
+         in_seq_log = as.integer(in_seq_log),
+         performance_log = as.integer(performance_log),
+         poke_events = as.integer(poke_events),
+         front_reward = as.integer(front_reward),
+         back_reward = as.integer(back_reward))
+glimpse(bm)
 ```
 
 # Get In-Sequence Correct Trials
 
 ```{r}
 # indices for each odor
+# every 15 items in the behavior_info$preTrialBehavMatrix represents a trial
+# there are 240 trials
+# the 3rd item represents which odor was presented
+# each vector stores the indices of when each odor was presented
 idx_1 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 1, arr.ind = TRUE)
 idx_2 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 2, arr.ind = TRUE)
 idx_3 <- which(behavior_info$preTrialBehavMatrix[seq(3, length(behavior_info$preTrialBehavMatrix), 15)] == 3, arr.ind = TRUE)
@@ -169,6 +172,10 @@ all_trials <- list(idx_1, idx_2, idx_3, idx_4, idx_5)
 names(all_trials) <- c("odor_1", "odor_2", "odor_3", "odor_4", "odor_5")
 
 # Odor 1
+# Every 15 items, the 6th item represents the performance of the rat, if the rat correctly poked in
+# Every 15 items, the 5th item represents the duration of the trial
+# Every 15 items, the 4th item represents what position in the sequence the odor was presented
+
 selected_performance <- behavior_info$preTrialBehavMatrix[seq(6, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
 selected_durations <- behavior_info$preTrialBehavMatrix[seq(5, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
 selected_positions <- behavior_info$preTrialBehavMatrix[seq(4, length(behavior_info$preTrialBehavMatrix), 15)][idx_1]
@@ -201,70 +208,33 @@ all_trials$odor_1 <- idx_1[!is.na(idx_1)]
 ```
 
 
-# Merging Ensemble Matrix and Behavior Matrix by Odor 
-
-```{r}
-bm_odor_1 <- 
-  bm %>% 
-  select(time_bin, odor_1)
-
-bm_odor_1 <- 
-  cbind(bm_odor_1, em) %>% 
-  filter(odor_1 == 1)
-
-
-bm_odor_2 <- 
-  bm %>% 
-  select(time_bin, odor_2)
-
-bm_odor_2 <- 
-  cbind(bm_odor_2, em) %>% 
-  filter(odor_2 == 1)
-
-bm_odor_3 <- 
-  bm %>% 
-  select(time_bin, odor_3)
-
-bm_odor_3 <- 
-  cbind(bm_odor_3, em) %>% 
-  filter(odor_3 == 1)
-
-bm_odor_4 <- 
-  bm %>% 
-  select(time_bin, odor_4)
-
-bm_odor_4 <- 
-  cbind(bm_odor_4, em) %>% 
-  filter(odor_4 == 1)
-
-bm_odor_5 <- 
-  bm %>% 
-  select(time_bin, odor_5)
-
-bm_odor_5 <- 
-  cbind(bm_odor_5, em) %>% 
-  filter(odor_5 == 1)
-
-```
-
 # Adding Trial Column in Behavior Matrix
 
 ```{r}
+# Focus on time_bin and poke_events variables in the bm data frame
+# Filter when the rat pokes in and pokes out (trial starts and ends)
+# Convert all -1s in poke_events column to 1s
+# Every 2 rows represents the start of a trial and the end of a trial
+# Taking the ceiling of the cumulative sum of poke_event divided by 2 gives us the appropriate trial number for every two rows
 bm_trials <- bm %>% 
-  select(time_bin, odor_1, poke_events) %>% 
+  select(time_bin, poke_events) %>% 
   filter(poke_events != 0) %>% 
   mutate(poke_events = case_when(poke_events != 0 ~ 1,
                                  poke_events == 0 ~ 0)) %>% 
   mutate(trial = as.integer(ceiling(cumsum(poke_events) / 2))) %>% 
   select(time_bin, trial) 
 
+# merging the trial column with the original bm data frame
+# trials column will now have NAs when time_bin has no overlap
 bm <- bm %>% 
   left_join(bm_trials, by = c("time_bin")) 
   
+# making sure there are 240 trials
 bm_trials %>% 
   tail()
 
 # Filling in gaps between trial start and trial end
+# The reamining NAs should just be 0 (trial 0 == dead period)
 bm <- bm %>% 
   mutate(trial = runner::fill_run(trial, only_within = TRUE)) %>% 
   replace_na(list(trial = 0))
@@ -273,6 +243,7 @@ bm <- bm %>%
 # Merging Trials and Time with Ensemble Matrix (Neurons)
 
 ```{r}
+# merging the following variables with the ensemble matrix storing the neurons firing activity
 em_trials <- bm %>% 
   select(time_bin, trial, odor_1, odor_2, odor_3, odor_4, odor_5) %>% 
   cbind(em) 
@@ -281,21 +252,24 @@ em_trials <- bm %>%
 
 
 ```{r}
+# obtaining which indices where the rat pokes in 
 poke_indices <- which(bm$poke_events == 1, arr.ind = T)
 
-neuron <- ncol(em)
-window_size <- 2000
+neuron <- ncol(em) # number of neurons in the em matrix, each neuron is a column
 
+window_size <- 2000 # 2000 ms window 
 time <- window_size*2
-trials <- length(poke_indices)
 
-em_trial <- array(NA, dim = c(time, neuron, trials))
+trials <- length(poke_indices) # number of trials is the number of times the rat poked in 
 
+em_trial <- array(NA, dim = c(time, neuron, trials)) # creating 3 dimensional array (time x neuron x trials = 4000 x 47 x 240)
+
+# loop through trials
 for (i in 1:length(poke_indices)) {
   em_trial[,,i] <- as.matrix(em[(poke_indices[i]-window_size):((poke_indices[i]+window_size)-1),])
 }
 
-trial_sums <- rowSums(em_trial, dims = 2)
+trial_sums <- rowSums(em_trial, dims = 2) 
 
 plot(trial_sums[,3], type = "l") 
 ```
@@ -306,9 +280,12 @@ plot(trial_sums[,3], type = "l")
 ### Neurons Firing Bar Plot
 
 ```{r fig.width = 10}
+# finding out how many times each neuron fired throughout the whole experiment, regardless of odor
 firing_counts <- em %>% 
   colSums()
 
+# creating data frame containing neuron names and spike counts
+# plot neuron names on x-axis and spike counts on y-axis
 data.frame(neuron = factor(names(firing_counts)), 
            firing_counts) %>%
   arrange(desc(firing_counts)) %>% 
@@ -325,6 +302,9 @@ data.frame(neuron = factor(names(firing_counts)),
 ### Raster Plot Displaying How Neurons Fire Over Time
 
 ```{r}
+# which(em == 1, arr.ind = TRUE) returns two columns: row and col
+# row: the time in which a neuron was fired
+# col: what specific neuron was fired 
 which(em == 1, arr.ind = TRUE) %>% 
   as.data.frame() %>% 
   ggplot(aes(x = row, y = col)) +
@@ -334,6 +314,7 @@ which(em == 1, arr.ind = TRUE) %>%
        x = "Time (ms)",
        y = "Neuron Number")
 
+# zoomed in version of plot above (removed rows greater than 100000)
 which(em == 1, arr.ind = TRUE) %>% 
   as.data.frame() %>% 
   filter(row < 100000) %>% 
@@ -354,6 +335,11 @@ em_trials %>%
   select(time_bin, trial, neuron_2) %>% 
   filter(trial != 0 & neuron_2 == 1)
 
+# picking trials where neuron 2 was fired
+# grouping each row by the trial number
+# change time_bin to start from 0 
+# plot time_bin on x-axis, trial number on y-axis, and whether or not the neuron fired on the z-axis
+# results in raster plot 
 em_trials %>% 
   select(time_bin, trial, neuron_2) %>% 
   filter(trial != 0 & neuron_2 == 1) %>% 
@@ -369,6 +355,9 @@ em_trials %>%
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
 
+# picking trials where neuron 2 was fired
+# grouping each row by the trial number
+# seeing how many times neuron 2 fired across all trials
 em_trials %>% 
   select(time_bin, trial, neuron_2) %>% 
   filter(trial != 0 & neuron_2 == 1) %>% 
@@ -382,21 +371,10 @@ em_trials %>%
 
 ```
 
-__Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
+__Obtaining which trials presented which odor__
 
-```{r fig.height = 8, fig.width = 10}
-em_trials %>% 
-  select(time_bin, trial, neuron_15) %>% 
-  filter(trial != 0 & neuron_15 == 1) %>% 
-  group_by(trial) %>% 
-  mutate(time_bin = time_bin - min(time_bin)) %>% 
-  ggplot(aes(x = time_bin)) + 
-  geom_histogram(color = "white") +
-  labs(x = "Time (MS)",
-       y = "Firing Count", 
-       title = "Firing Counts of Neuron 15 Throughout Trial Run") 
-
-
+```{r}
+# returns a vector of trials that presented odor 1
 odor_1_trials <- em_trials %>% 
   filter(odor_1 == 1) %>% 
   select(trial) %>% 
@@ -421,6 +399,31 @@ odor_5_trials <- em_trials %>%
   filter(odor_5 == 1) %>% 
   select(trial) %>% 
   pull()
+```
+
+
+__Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
+
+```{r fig.height = 8, fig.width = 10}
+
+em_trials %>% 
+  select(time_bin, trial, neuron_15) %>% 
+  filter(trial != 0 & neuron_15 == 1) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run") 
+
+# in em_trials, filter where the trial column exists in the appropriate vector of trial numbers
+# Example: filter where trial number is in the odor_1_trials vector
+# this grabs all the rows when odor 1 was presented
+# select the time, trial number, and a specific neuron
+# filter when trial is actually happening (not 0) and when the neuron is fired 
+# group by the trial number
+# make sure time starts at 0 for each trial
 
 neuron_15_spikes_o1 <- em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
@@ -433,8 +436,6 @@ neuron_15_spikes_o1 <- em_trials %>%
   labs(x = "Time (MS)",
        y = "Firing Count", 
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1") 
-
-
 
 neuron_15_spikes_o2 <- em_trials %>% 
   filter(trial %in% odor_2_trials) %>% 
@@ -484,6 +485,7 @@ neuron_15_spikes_o5 <- em_trials %>%
        y = "Firing Count", 
        title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5") 
 
+# combine plots of the neuron and each odor into one plot
 grid.arrange(neuron_15_spikes_o1, 
              neuron_15_spikes_o2, 
              neuron_15_spikes_o3,
@@ -494,8 +496,7 @@ grid.arrange(neuron_15_spikes_o1,
 
 ```
 
-__Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 15__
-
+__Examining Firing Patterns Over Sequences of Trials By Odor For Neuron 2__
 
 ```{r fig.height = 8, fig.width = 10}
 neuron_2_spikes_o1 <- em_trials %>% 
@@ -509,7 +510,6 @@ neuron_2_spikes_o1 <- em_trials %>%
   labs(x = "Time (MS)",
        y = "Firing Count", 
        title = "Firing Counts of Neuron 2 Throughout Trial Run for Odor 1") 
-
 
 
 neuron_2_spikes_o2 <- em_trials %>% 
@@ -571,70 +571,6 @@ grid.arrange(neuron_2_spikes_o1,
 ```
 
 
-
-```{r}
-em_trials %>% 
-  select(time_bin, trial, neuron_2) %>% 
-  filter(trial != 0 & neuron_2 == 1) %>% 
-  ggplot(aes(x = time_bin, y = trial, z = neuron_2, color = as.factor(trial))) +
-  geom_point(shape = 0, size = 1) +
-  scale_y_discrete(limits = c("1":"250")) +
-  labs(x = "Time (MS)", 
-       y = "Trial Number", 
-       title = "Neuron 2 Firing Across Trials") +
-  theme(legend.position = "none", 
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
-
-em_trials %>% 
-  select(time_bin, trial, neuron_2) %>% 
-  filter(trial > 0 & trial <= 50 & neuron_2 == 1) %>% 
-  ggplot(aes(x = time_bin, y = trial, z = neuron_2, color = as.factor(trial))) +
-  geom_point(shape = 0, size = 1) +
-  scale_y_discrete(limits = c("1":"50")) +
-  labs(x = "Time (MS)", 
-       y = "Trial Number", 
-       title = "Neuron 2 Firing Across Trials (Zoomed In)") +
-  theme(legend.position = "none")
-
-em_trials %>% 
-  select(time_bin, trial, neuron_2) %>% 
-  filter(trial > 0 & trial <= 10 & neuron_2 == 1) %>% 
-  ggplot(aes(x = time_bin, y = trial, z = neuron_2, color = as.factor(trial))) +
-  geom_point(shape = 0, size = 1) +
-  scale_y_discrete(limits = c("1":"10")) +
-  labs(x = "Time (MS)", 
-       y = "Trial Number", 
-       title = "Neuron 2 Firing Across Trials (Zoomed In Even More)")
-```
-
-__Examining Firing Patterns of Neuron 2 Using Bar Plots__
-
-```{r}
-em_trials %>% 
-  select(trial, neuron_2) %>% 
-  filter(trial != 0 & neuron_2 == 1) %>% 
-  ggplot(aes(x = as.factor(trial))) + 
-  geom_bar() +
-  theme(legend.position = "none", 
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
-
-em_trials %>% 
-  select(trial, neuron_2) %>% 
-  filter(trial != 0 & neuron_2 == 1) %>% 
-  ggplot(aes(x = as.factor(trial))) + 
-  geom_bar() +
-  scale_x_discrete(limits = c("1":"50"))
-  
-em_trials %>% 
-  select(trial, neuron_2) %>% 
-  filter(trial != 0 & neuron_2 == 1) %>% 
-  ggplot(aes(x = as.factor(trial))) + 
-  geom_bar() +
-  scale_x_discrete(limits = c("1":"10"))
-```
-
 ```{r}
 em_trials %>% 
   select(time_bin, trial, neuron_2) %>%
@@ -668,12 +604,6 @@ trial_sums <- rowSums(em_trial, dims = 2)
 plot(trial_sums[,2], type = "l") 
 
 ```
-
-
-
-
-
-
 
 ### Poke Events
 
