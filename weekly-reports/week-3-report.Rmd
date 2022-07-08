@@ -1190,82 +1190,96 @@ grid.arrange(neuron_24_spikes_o1,
 ### Nuerons 25 to 36 (Adie)
 
 ```{r fig.height = 8, fig.width = 10}
-neuron_36_spikes_o1 <-
+neuron_25_spikes_o1 <-
   em_trials %>% 
   filter(trial %in% odor_1_trials) %>% 
-  select(time_bin, trial, odor_1, neuron_36) %>% 
+  select(time_bin, trial, odor_1, neuron_25) %>% 
   group_by(trial) %>% 
   mutate(time_bin = time_bin - min(time_bin)) %>% 
-  filter(neuron_36 == 1) %>% 
+  filter(neuron_25 == 1) %>% 
   ggplot(aes(x = time_bin)) + 
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 1") 
+       title = "Firing Counts of Neuron 25 Throughout Trial Run for Odor 1") +
+       scale_y_continuous(limits = c(0,80)) +
+       scale_x_continuous(limits = c(0,1.7))
 
-neuron_36_spikes_o2 <-
+neuron_25_spikes_o2 <-
   em_trials %>% 
   filter(trial %in% odor_2_trials) %>% 
-  select(time_bin, trial, odor_2, neuron_36) %>% 
+  select(time_bin, trial, odor_2, neuron_25) %>% 
   group_by(trial) %>% 
   mutate(time_bin = time_bin - min(time_bin)) %>% 
-  filter(neuron_36 == 1) %>% 
+  filter(neuron_25 == 1) %>% 
   ggplot(aes(x = time_bin)) + 
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 2") 
+       title = "Firing Counts of Neuron 25 Throughout Trial Run for Odor 2") +
+       scale_y_continuous(limits = c(0,80)) +
+       scale_x_continuous(limits = c(0,1.7))
 
-neuron_36_spikes_o3 <-
+neuron_25_spikes_o3 <-
   em_trials %>% 
   filter(trial %in% odor_3_trials) %>% 
-  select(time_bin, trial, odor_3, neuron_36) %>% 
+  select(time_bin, trial, odor_3, neuron_25) %>% 
   group_by(trial) %>% 
   mutate(time_bin = time_bin - min(time_bin)) %>% 
-  filter(neuron_36 == 1) %>% 
+  filter(neuron_25 == 1) %>% 
   ggplot(aes(x = time_bin)) + 
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 3") 
+       title = "Firing Counts of Neuron 25 Throughout Trial Run for Odor 3") +
+       scale_y_continuous(limits = c(0,80)) +
+       scale_x_continuous(limits = c(0,1.7))
 
-neuron_36_spikes_o4 <-
+neuron_25_spikes_o4 <-
   em_trials %>% 
   filter(trial %in% odor_4_trials) %>% 
-  select(time_bin, trial, odor_4, neuron_36) %>% 
+  select(time_bin, trial, odor_4, neuron_25) %>% 
   group_by(trial) %>% 
   mutate(time_bin = time_bin - min(time_bin)) %>% 
-  filter(neuron_36 == 1) %>% 
+  filter(neuron_25 == 1) %>% 
   ggplot(aes(x = time_bin)) + 
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 4") 
+       title = "Firing Counts of Neuron 25 Throughout Trial Run for Odor 4") +
+       scale_y_continuous(limits = c(0,80)) +
+       scale_x_continuous(limits = c(0,1.7))
 
-neuron_36_spikes_o5 <-
+neuron_25_spikes_o5 <-
   em_trials %>% 
   filter(trial %in% odor_5_trials) %>% 
-  select(time_bin, trial, odor_5, neuron_36) %>% 
+  select(time_bin, trial, odor_5, neuron_25) %>% 
   group_by(trial) %>% 
   mutate(time_bin = time_bin - min(time_bin)) %>% 
-  filter(neuron_36 == 1) %>% 
+  filter(neuron_25 == 1) %>% 
   ggplot(aes(x = time_bin)) + 
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 5") 
+       title = "Firing Counts of Neuron 25 Throughout Trial Run for Odor 5") +
+       scale_y_continuous(limits = c(0,80)) +
+       scale_x_continuous(limits = c(0,1.7))
 
 
-grid.arrange(neuron_36_spikes_o1, 
-             neuron_36_spikes_o2, 
-             neuron_36_spikes_o3,
-             neuron_36_spikes_o4,
-             neuron_36_spikes_o5,
+grid.arrange(neuron_25_spikes_o1, 
+             neuron_25_spikes_o2, 
+             neuron_25_spikes_o3,
+             neuron_25_spikes_o4,
+             neuron_25_spikes_o5,
              nrow = 2, 
              ncol = 3)
 
 # Neuron 28, 34 and 35 has patterns.
-# Neuron 32 is weird because for Odor 4, that Neuron is constantly spiking throughout the trial. 
+# For Neuron 28, it's better to use 17 or 18 for y scale.
+# For Neuron 34, there's a pattern, but in Odor 1, there are times when it's not fired. Use 50 as y scale.
+# For Neuron 35, use 30 as y scale.
+# Neuro 29 has a pattern too, use 40 for y scale.
+# Neuron 30 - 32 are weird since it is not fired/no activity at all during the time of trial.
 ```
 
 
