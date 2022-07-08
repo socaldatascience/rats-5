@@ -1262,6 +1262,22 @@ grid.arrange(neuron_24_spikes_o1,
              ncol = 5)
 ```
 
+```{r}
+# summary
+# Neuron 13 spikes a significant amount during odor 2 towards the middle end of the trials. It doesn't spike much during the other odors
+# Neuron 14 fires a plethora of times for all odors. Generally it peaks in the beginning of the trials for all odors.
+# Neuron 15 has firing counts all over the place. for odor 2 and 3 it has a significant peak in the beginning towards the middle of the trials. odor 1 peaks middle-end of trial
+# Neuron 16 fires a very small amount for all odors. Odor 5 has the most firing counts that are in the beginning and middle of the trial. odor 1 has a high count in middle-end
+# Neuron 17 fires a significant amount in odor 1 in the beginning and middle of the trial. The other odors don't have as much firing counts, but still have some
+# Neuron 18 has a huge amount of firing counts. Odors 1-5 seem to be firing a great amount in the begging of the trials and it (firing count) gradually decreases as time increases
+# Neuron 19 has a surplus of firings for all odors. odor 1 fires all over the place while the rest follow a trend which starts with high firing counts in the beginning of the trial and less in the end.
+# Neuron 20 has a very little amount of firing counts. 
+# Neuron 21 has very few firing counts for all odors. Insignificant
+# Neuron 22 has 0 firing counts for all odors except odor 3. Odor 3 has exactly a firing count of 1 throughout all times in the trials.
+# Neuron 23 has zero firing counts for all odors
+# Neuron 24 has zero firing counts for all odors
+```
+
 ### Nuerons 25 to 36 (Adie)
 
 ```{r fig.height = 8, fig.width = 10}
