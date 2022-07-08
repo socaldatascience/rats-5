@@ -256,11 +256,21 @@ grid.arrange(neuron_15_spikes_o1,
 ```
 
 
-### Neurons 1 to 12
+### Neurons 1 to 12 (Cadee)
 
-### Neurons 13 to 24
 
-### Nuerons 25 to 36
 
-### Neurons 37 to 47
+
+### Neurons 13 to 24 (James)
+
+
+
+
+### Nuerons 25 to 36 (Adie)
+
+
+
+### Neurons 37 to 47 (Mia)
+
+
 
