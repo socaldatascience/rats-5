@@ -1,6 +1,6 @@
 ---
 title: "Week 3 Report"
-author: "Giles Carlos"
+author: "Giles Carlos, Mia Chiu, Alyssandrei Parinas, Cadence Pinkerton, James Owens"
 date: '2022-07-07'
 output: html_document
 ---
@@ -315,7 +315,81 @@ grid.arrange(neuron_15_spikes_o1,
 
 ### Nuerons 25 to 36 (Adie)
 
+```{r fig.height = 8, fig.width = 10}
+neuron_36_spikes_o1 <-
+  em_trials %>% 
+  filter(trial %in% odor_1_trials) %>% 
+  select(time_bin, trial, odor_1, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 1") 
 
+neuron_36_spikes_o2 <-
+  em_trials %>% 
+  filter(trial %in% odor_2_trials) %>% 
+  select(time_bin, trial, odor_2, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 2") 
+
+neuron_36_spikes_o3 <-
+  em_trials %>% 
+  filter(trial %in% odor_3_trials) %>% 
+  select(time_bin, trial, odor_3, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 3") 
+
+neuron_36_spikes_o4 <-
+  em_trials %>% 
+  filter(trial %in% odor_4_trials) %>% 
+  select(time_bin, trial, odor_4, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 4") 
+
+neuron_36_spikes_o5 <-
+  em_trials %>% 
+  filter(trial %in% odor_5_trials) %>% 
+  select(time_bin, trial, odor_5, neuron_36) %>% 
+  group_by(trial) %>% 
+  mutate(time_bin = time_bin - min(time_bin)) %>% 
+  filter(neuron_36 == 1) %>% 
+  ggplot(aes(x = time_bin)) + 
+  geom_histogram(color = "white") +
+  labs(x = "Time (MS)",
+       y = "Firing Count", 
+       title = "Firing Counts of Neuron 36 Throughout Trial Run for Odor 5") 
+
+
+grid.arrange(neuron_36_spikes_o1, 
+             neuron_36_spikes_o2, 
+             neuron_36_spikes_o3,
+             neuron_36_spikes_o4,
+             neuron_36_spikes_o5,
+             nrow = 2, 
+             ncol = 3)
+```
 
 ### Neurons 37 to 47 (Mia)
 
