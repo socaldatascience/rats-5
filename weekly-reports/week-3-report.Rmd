@@ -213,7 +213,8 @@ odor_5_trials <- em_trials %>%
 
 __Example Neuron to Find Firing Patterns for a Specific Odor__
 
-```{r fig.height = 8, fig.width = 10}
+
+```{r fig.height = 24, fig.width = 8}
 # in em_trials, filter where the trial column exists in the appropriate vector of trial numbers
 # Example: filter where trial number is in the odor_1_trials vector
 # this grabs all the rows when odor 1 was presented
@@ -233,7 +234,8 @@ neuron_15_spikes_o1 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1") 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 1")  +
+  scale_y_continuous(limits = c(0, 85))
 
 neuron_15_spikes_o2 <-
   em_trials %>% 
@@ -246,7 +248,8 @@ neuron_15_spikes_o2 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2") 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 2")  +
+  scale_y_continuous(limits = c(0, 85))
 
 neuron_15_spikes_o3 <-
   em_trials %>% 
@@ -259,7 +262,8 @@ neuron_15_spikes_o3 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3") 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 3")  +
+  scale_y_continuous(limits = c(0, 85))
 
 neuron_15_spikes_o4 <-
   em_trials %>% 
@@ -272,7 +276,8 @@ neuron_15_spikes_o4 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4") 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 4")  +
+  scale_y_continuous(limits = c(0, 85))
 
 neuron_15_spikes_o5 <-
   em_trials %>% 
@@ -285,7 +290,8 @@ neuron_15_spikes_o5 <-
   geom_histogram(color = "white") +
   labs(x = "Time (MS)",
        y = "Firing Count", 
-       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5") 
+       title = "Firing Counts of Neuron 15 Throughout Trial Run for Odor 5")  +
+  scale_y_continuous(limits = c(0, 85))
 
 # combine plots of the neuron and each odor into one plot
 grid.arrange(neuron_15_spikes_o1, 
@@ -293,8 +299,7 @@ grid.arrange(neuron_15_spikes_o1,
              neuron_15_spikes_o3,
              neuron_15_spikes_o4,
              neuron_15_spikes_o5,
-             nrow = 2, 
-             ncol = 3)
+             ncol = 5)
 ```
 
 
