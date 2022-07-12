@@ -291,6 +291,41 @@ test_b <- test %>%
 ### Predicting Odor C or Not Odor C
 
 ```{r}
+odor_c <- test %>% 
+  mutate(odor = case_when(
+    odor == 3 ~ 1, 
+    odor != 3 ~ 0
+  ))
+
+all_rows <- seq(1, nrow(odor_c), 1)
+train_rows <- sample(all_rows, floor(.9*nrow(odor_c)), replace = F)
+
+train_c <- odor_c[train_rows,]
+test_c <- odor_c[-train_rows,]
+
+m3 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + 
+            neuron_18 + neuron_19 + neuron_5 + neuron_6 + neuron_7 + 
+            neuron_28 + neuron_35 + neuron_36 + neuron_41 + neuron_43 + neuron_45 + neuron_46,
+          family = binomial(link = "logit"), 
+          data = train_c)
+summary(m3)
+
+predict.fit = m3 %>%  predict(test_c,type="response") # pipe operator run model on train and then run on test data
+head(predict.fit)
+length(predict.fit)
+predicted.classes <- ifelse(predict.fit > 0.5, 1,0) # if in the predict fit data set if the number is greater than 0.5 then it is a 1 otherwise it is a 0 
+
+counter=0
+for(i in 1:nrow(test_c))
+{
+  if(predicted.classes[i] != test_c$odor[i])
+  {counter=counter+1}
+}
+# prediction not equal to actual gender
+# if I predicted a 1 as 0 then I misclassified
+counter
+misclassification.rate=counter/nrow(test_c)
+misclassification.rate
 
 ```
 
