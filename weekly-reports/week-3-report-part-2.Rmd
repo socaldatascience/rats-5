@@ -244,6 +244,7 @@ test_a <- test %>%
     odor != 1 ~ 0
   ))
 
+<<<<<<< HEAD
 test_a %>% 
   sample(n_ro)
 
@@ -254,6 +255,33 @@ m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 +
           family = binomial(link = "logit"), 
           data = test_a)
 broom::tidy(m1)
+=======
+#a <- seq(1,304045,1)
+#b <- sample(a,1000,replace = F)
+
+m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + neuron_18 + neuron_19 + neuron_5 + neuron_6 + neuron_7 + neuron_28 + neuron_35 + neuron_36 + neuron_41 + neuron_43 + neuron_45 + neuron_46,
+          family = binomial(link = "logit"), 
+          data = test_a)
+summary(m1)
+
+predict.fit = m1 %>%  predict(test_a,type="response") # pipe operator run model on train and then run on test data
+head(predict.fit)
+length(predict.fit)
+predicted.classes <- ifelse(predict.fit > 0.5, 1,0) # if in the predict fit data set if the number is greater than 0.5 then it is a 1 otherwise it is a 0 
+
+counter=0
+for(i in 1:304045)
+{
+  if(predicted.classes[i] != test_a$odor[i])
+  {counter=counter+1}
+}
+# prediction not equal to actual gender
+# if I predicted a 1 as 0 then I misclassified
+counter
+misclassification.rate=counter/304045
+misclassification.rate
+
+>>>>>>> 8d5105d0e6dc047f45204f2ce7f014fbc35f909d
 ```
 
 
