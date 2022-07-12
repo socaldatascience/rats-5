@@ -244,10 +244,16 @@ test_a <- test %>%
     odor != 1 ~ 0
   ))
 
-m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + neuron_18 + neuron_19 + neuron_5 + neuron_6 + neuron_7 + neuron_28 + neuron_35 + neuron_36 + neuron_41 + neuron_43 + neuron_45 + neuron_46,
+test_a %>% 
+  sample(n_ro)
+
+m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + 
+            neuron_18 + neuron_19 + neuron_5 + neuron_6 + 
+            neuron_7 + neuron_28 + neuron_35 + neuron_36 + 
+            neuron_41 + neuron_43 + neuron_45 + neuron_46,
           family = binomial(link = "logit"), 
           data = test_a)
-summary(m1)
+broom::tidy(m1)
 ```
 
 
