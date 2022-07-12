@@ -1545,20 +1545,4 @@ grid.arrange(neuron_46_spikes_o1,
 #neuron 43, 45, 46: the neurons have higher peak on the left.
 ```
 
-# Logistic Regression Model
-
-### Predicting Odor A or Not Odor A 
-
-
-### Predicting Odor B or Not Odor B
-
-
-### Predicting Odor C or Not Odor C
-
-
-### Predicting Odor D or Not Odor D
-
-
-### Predicting Odor E or Not Odor E
-
 
