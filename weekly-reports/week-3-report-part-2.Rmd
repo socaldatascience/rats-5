@@ -238,30 +238,23 @@ __Potential Predictors (Neurons): 13, 14, 15, 17, 18, 19, 5, 6, 7, 28, 35, 36, 4
 ### Predicting Odor A or Not Odor A 
 
 ```{r}
-test_a <- test %>% 
+odor_a <- test %>% 
   mutate(odor = case_when(
     odor == 1 ~ 1, 
     odor != 1 ~ 0
   ))
 
-<<<<<<< HEAD
-test_a %>% 
-  sample(n_ro)
+all_rows <- seq(1, nrow(odor_a), 1)
+train_rows <- sample(all_rows, floor(.9*nrow(odor_a)), replace = F)
+
+train_a <- odor_a[train_rows,]
+test_a <- odor_a[-train_rows,]
 
 m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + 
-            neuron_18 + neuron_19 + neuron_5 + neuron_6 + 
-            neuron_7 + neuron_28 + neuron_35 + neuron_36 + 
-            neuron_41 + neuron_43 + neuron_45 + neuron_46,
+            neuron_18 + neuron_19 + neuron_5 + neuron_6 + neuron_7 + 
+            neuron_28 + neuron_35 + neuron_36 + neuron_41 + neuron_43 + neuron_45 + neuron_46,
           family = binomial(link = "logit"), 
-          data = test_a)
-broom::tidy(m1)
-=======
-#a <- seq(1,304045,1)
-#b <- sample(a,1000,replace = F)
-
-m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + neuron_18 + neuron_19 + neuron_5 + neuron_6 + neuron_7 + neuron_28 + neuron_35 + neuron_36 + neuron_41 + neuron_43 + neuron_45 + neuron_46,
-          family = binomial(link = "logit"), 
-          data = test_a)
+          data = train_a)
 summary(m1)
 
 predict.fit = m1 %>%  predict(test_a,type="response") # pipe operator run model on train and then run on test data
@@ -270,7 +263,7 @@ length(predict.fit)
 predicted.classes <- ifelse(predict.fit > 0.5, 1,0) # if in the predict fit data set if the number is greater than 0.5 then it is a 1 otherwise it is a 0 
 
 counter=0
-for(i in 1:304045)
+for(i in 1:nrow(test_a))
 {
   if(predicted.classes[i] != test_a$odor[i])
   {counter=counter+1}
@@ -278,10 +271,9 @@ for(i in 1:304045)
 # prediction not equal to actual gender
 # if I predicted a 1 as 0 then I misclassified
 counter
-misclassification.rate=counter/304045
+misclassification.rate=counter/nrow(test_a)
 misclassification.rate
 
->>>>>>> 8d5105d0e6dc047f45204f2ce7f014fbc35f909d
 ```
 
 
