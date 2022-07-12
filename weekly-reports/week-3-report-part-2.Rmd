@@ -5,7 +5,6 @@ date: '2022-07-12'
 output: html_document
 ---
 
-
 # Libraries
 
 ```{r}
@@ -181,23 +180,85 @@ em_trials <- bm %>%
 
 # Logistic Regression Model
 
+### Creating Odor Column (Response) Variable
+
 ```{r}
-em_trials %>% 
-  filter(trial != 0)
+test <- em_trials %>% 
+  filter(trial != 0) %>% 
+  mutate(
+    odor_1 = case_when(
+      trial %in% odor_1_trials ~ 1,
+      !(trial %in% odor_1_trials) ~ 0),
+    odor_2 = case_when(
+      trial %in% odor_2_trials ~ 1,
+      !(trial %in% odor_2_trials) ~ 0),
+    odor_3 = case_when(
+      trial %in% odor_3_trials ~ 1,
+      !(trial %in% odor_3_trials) ~ 0),
+    odor_4 = case_when(
+      trial %in% odor_4_trials ~ 1,
+      !(trial %in% odor_4_trials) ~ 0),
+    odor_5 = case_when(
+      trial %in% odor_5_trials ~ 1,
+      !(trial %in% odor_5_trials) ~ 0)
+  ) %>% 
+  mutate(odor = case_when(
+    odor_1 == 1 ~ 1,
+    odor_2 == 1 ~ 2,
+    odor_3 == 1 ~ 3,
+    odor_4 == 1 ~ 4,
+    odor_5 == 1 ~ 5,
+  )) 
+
+test <- test %>% 
+  select(time_bin, 
+         trial,
+         neuron_13, 
+         neuron_14, 
+         neuron_15, 
+         neuron_17, 
+         neuron_18, 
+         neuron_19, 
+         neuron_5, 
+         neuron_6, 
+         neuron_7, 
+         neuron_28, 
+         neuron_35, 
+         neuron_36, 
+         neuron_41, 
+         neuron_43, 
+         neuron_45, 
+         neuron_46,
+         odor)
 ```
+
+__Potential Predictors (Neurons): 13, 14, 15, 17, 18, 19, 5, 6, 7, 28, 35, 36, 41, 43, 45, 46__
 
 
 ### Predicting Odor A or Not Odor A 
 
 ```{r}
+test_a <- test %>% 
+  mutate(odor = case_when(
+    odor == 1 ~ 1, 
+    odor != 1 ~ 0
+  ))
 
+m1 <- glm(odor ~ neuron_13 + neuron_14 + neuron_15 + neuron_17 + neuron_18 + neuron_19 + neuron_5 + neuron_6 + neuron_7 + neuron_28 + neuron_35 + neuron_36 + neuron_41 + neuron_43 + neuron_45 + neuron_46,
+          family = binomial(link = "logit"), 
+          data = test_a)
+summary(m1)
 ```
 
 
 ### Predicting Odor B or Not Odor B
 
 ```{r}
-
+test_b <- test %>% 
+  mutate(odor = case_when(
+    odor == 2 ~ 2, 
+    odor != 2 ~ 0
+  ))
 ```
 
 
