@@ -374,14 +374,14 @@ odor_c_test <- test %>%
     odor != 3 ~ 0
   ))
 
-m1 <- glm(odor ~ neuron_1 + neuron_2 + neuron_4 + neuron_5 + neuron_6 + neuron_7 + neuron_8 + neuron_9 + neuron_10 + neuron_11 + neuron_12 + neuron_13 + neuron_14 + neuron_15 + neuron_16 + neuron_17 + neuron_18 + neuron_19 + neuron_20 + neuron_24 + neuron_25 + neuron_26 + neuron_27 + neuron_28 + neuron_29 + neuron_30 + neuron_31 + neuron_32 + neuron_33 + neuron_34 + neuron_35 + neuron_36 + neuron_37 + neuron_38 + neuron_39 + neuron_40 + neuron_41 + neuron_42 + neuron_44 + neuron_45 + neuron_46,
+m3 <- glm(odor ~ neuron_1 + neuron_2 + neuron_4 + neuron_5 + neuron_6 + neuron_7 + neuron_8 + neuron_9 + neuron_10 + neuron_11 + neuron_12 + neuron_13 + neuron_14 + neuron_15 + neuron_16 + neuron_17 + neuron_18 + neuron_19 + neuron_20 + neuron_24 + neuron_25 + neuron_26 + neuron_27 + neuron_28 + neuron_29 + neuron_30 + neuron_31 + neuron_32 + neuron_33 + neuron_34 + neuron_35 + neuron_36 + neuron_37 + neuron_38 + neuron_39 + neuron_40 + neuron_41 + neuron_42 + neuron_44 + neuron_45 + neuron_46,
           family = binomial(link = "logit"), 
           data = odor_c_train)
-summary(m1)
+summary(m3)
 
 
 
-predict.fit = m1 %>%  
+predict.fit = m3 %>%  
   predict(odor_c_test, type="response") # pipe operator run model on train and then run on test data
 head(predict.fit)
 length(predict.fit)
