@@ -259,6 +259,11 @@ test <- test %>%
          neuron_44, 
          neuron_45,
          odor)
+
+test_2 <- test %>% 
+  group_by(trial) %>% 
+  summarise(across(neuron_12:neuron_45, sum)) 
+
 ```
 
 __Potential Predictors (Neurons): 12, 13, 14, 16, 17, 18, 4, 5, 6, 27, 34, 35, 40, 42, 44, 45__
@@ -402,99 +407,5 @@ misclassification.rate
 
 # making vectors for the entire column of each Neuron
 # making a vector for the firing count of each neuron
-```{r}
-vect_1 <- em$neuron_1
-vect_2 <- em$neuron_2
-vect_3 <- em$neuron_3
-vect_4 <- em$neuron_4
-vect_5 <- em$neuron_5
-vect_6 <- em$neuron_6
-vect_7 <- em$neuron_7
-vect_8 <- em$neuron_8
-vect_9 <- em$neuron_9
-vect_10 <- em$neuron_10
-vect_11 <- em$neuron_11
-vect_12 <- em$neuron_12
-vect_13 <- em$neuron_13
-vect_14 <- em$neuron_14
-vect_15 <- em$neuron_15
-vect_16 <- em$neuron_16
-vect_17 <- em$neuron_17
-vect_18 <- em$neuron_18
-vect_19 <- em$neuron_19
-vect_20 <- em$neuron_20
-vect_21 <- em$neuron_21
-vect_22 <- em$neuron_22
-vect_23 <- em$neuron_23
-vect_24 <- em$neuron_24
-vect_25 <- em$neuron_25
-vect_26 <- em$neuron_26
-vect_27 <- em$neuron_27
-vect_28 <- em$neuron_28
-vect_29 <- em$neuron_29
-vect_30 <- em$neuron_30
-vect_31 <- em$neuron_31
-vect_32 <- em$neuron_32
-vect_33 <- em$neuron_33
-vect_34 <- em$neuron_34
-vect_35 <- em$neuron_35
-vect_36 <- em$neuron_36
-vect_37 <- em$neuron_37
-vect_38 <- em$neuron_38
-vect_39 <- em$neuron_39
-vect_40 <- em$neuron_40
-vect_41 <- em$neuron_41
-vect_42 <- em$neuron_42
-vect_43 <- em$neuron_43
-vect_44 <- em$neuron_44
-vect_45 <- em$neuron_45
-vect_46 <- em$neuron_46
 
-sum_1 <- sum(vect_1)
-sum_2 <- sum(vect_2)
-sum_3 <- sum(vect_3)
-sum_4 <- sum(vect_4)
-sum_5 <- sum(vect_5)
-sum_6 <- sum(vect_6)
-sum_7 <- sum(vect_7)
-sum_8 <- sum(vect_8)
-sum_9 <- sum(vect_9)
-sum_10 <- sum(vect_10)
-sum_11 <- sum(vect_11)
-sum_12<- sum(vect_12)
-sum_13 <- sum(vect_13)
-sum_14 <- sum(vect_14)
-sum_15 <- sum(vect_15)
-sum_16 <- sum(vect_16)
-sum_17 <- sum(vect_17)
-sum_18 <- sum(vect_18)
-sum_19 <- sum(vect_19)
-sum_20 <- sum(vect_20)
-sum_21 <- sum(vect_21)
-sum_22 <- sum(vect_22)
-sum_23 <- sum(vect_23)
-sum_24 <- sum(vect_24)
-sum_25 <- sum(vect_25)
-sum_26 <- sum(vect_26)
-sum_27 <- sum(vect_27)
-sum_28 <- sum(vect_28)
-sum_29 <- sum(vect_29)
-sum_30 <- sum(vect_30)
-sum_31 <- sum(vect_31)
-sum_32 <- sum(vect_32)
-sum_33 <- sum(vect_33)
-sum_34 <- sum(vect_34)
-sum_35 <- sum(vect_35)
-sum_36 <- sum(vect_36)
-sum_37 <- sum(vect_37)
-sum_38 <- sum(vect_38)
-sum_39 <- sum(vect_39)
-sum_40 <- sum(vect_40)
-sum_41 <- sum(vect_41)
-sum_42 <- sum(vect_42)
-sum_43 <- sum(vect_43)
-sum_44 <- sum(vect_44)
-sum_45 <- sum(vect_45)
-sum_46 <- sum(vect_46)
-```
 
