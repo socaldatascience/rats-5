@@ -184,6 +184,34 @@ em_trials <- bm %>%
 ### Creating Odor Column (Response) Variable
 
 ```{r}
+odor_1_trials <- em_trials %>% 
+  filter(odor_1 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_2_trials <- em_trials %>% 
+  filter(odor_2 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_3_trials <- em_trials %>% 
+  filter(odor_3 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_4_trials <- em_trials %>% 
+  filter(odor_4 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_5_trials <- em_trials %>% 
+  filter(odor_5 == 1) %>% 
+  select(trial) %>% 
+  pull()
+```
+
+
+```{r}
 test <- em_trials %>% 
   filter(trial != 0) %>% 
   mutate(
