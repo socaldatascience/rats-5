@@ -212,7 +212,7 @@ odor_5_trials <- em_trials %>%
 
 
 ```{r}
-test <- em_trials %>% 
+train <- em_trials %>% 
   filter(trial != 0) %>% 
   mutate(
     odor_1 = case_when(
@@ -239,74 +239,39 @@ test <- em_trials %>%
     odor_5 == 1 ~ 5,
   )) 
 
-test <- test %>% 
-  select(time_bin, 
-         trial,
-         neuron_12, 
-         neuron_13, 
-         neuron_14, 
-         neuron_16, 
-         neuron_17, 
-         neuron_18, 
-         neuron_4, 
-         neuron_5, 
-         neuron_6, 
-         neuron_27, 
-         neuron_34, 
-         neuron_35, 
-         neuron_40, 
-         neuron_42, 
-         neuron_44, 
-         neuron_45,
-         odor)
 
-test_2 <- test %>% 
+
+train <- train %>% 
   group_by(trial) %>% 
-  summarise(across(neuron_12:neuron_45, sum)) 
+  slice(250:500) %>% 
+  summarise(across(neuron_1:neuron_46, sum)) %>% 
+  mutate(odor = case_when(
+    trial %in% odor_1_trials ~ 1,
+    trial %in% odor_2_trials ~ 2,
+    trial %in% odor_3_trials ~ 3,
+    trial %in% odor_4_trials ~ 4,
+    trial %in% odor_5_trials ~ 5
+  )) 
+  
 
 ```
 
-__Potential Predictors (Neurons): 12, 13, 14, 16, 17, 18, 4, 5, 6, 27, 34, 35, 40, 42, 44, 45__
+__Potential Predictors (Neurons): 4, 5, 6, 12, 13, 14, 16, 17, 18, , 27, 34, 35, 40, 42, 44, 45__
 
 
 ### Predicting Odor A or Not Odor A 
 
 ```{r}
-odor_a <- test %>% 
+odor_a_train <- train %>% 
   mutate(odor = case_when(
     odor == 1 ~ 1, 
     odor != 1 ~ 0
   ))
 
-all_rows <- seq(1, nrow(odor_a), 1)
-train_rows <- sample(all_rows, floor(.9*nrow(odor_a)), replace = F)
-
-train_a <- odor_a[train_rows,]
-test_a <- odor_a[-train_rows,]
-
-m1 <- glm(odor ~ neuron_12 + neuron_13 + neuron_14 + neuron_16 + 
-            neuron_17 + neuron_18 + neuron_4 + neuron_5 + neuron_6 + 
-            neuron_27 + neuron_34 + neuron_35 + neuron_40 + neuron_42 + neuron_44 + neuron_45,
+m1 <- glm(odor ~ neuron_1 + neuron_2 + neuron_3 + neuron_4 + neuron_5 + neuron_6 + neuron_7 + neuron_8 + neuron_9 + neuron_10 + neuron_11 + neuron_12 + neuron_13 + neuron_14 + neuron_15 + neuron_16 + neuron_17 + neuron_18 + neuron_19 + neuron_20 + neuron_21 + neuron_22 + neuron_23 + neuron_24 + neuron_25 + neuron_26 + neuron_27 + neuron_28 + neuron_29 + neuron_30 + neuron_31 + neuron_32 + neuron_33 + neuron_34 + neuron_35 + neuron_36 + neuron_37 + neuron_38 + neuron_39 + neuron_40 + neuron_41 + neuron_42 + neuron_44 + neuron_45 + neuron_46,
           family = binomial(link = "logit"), 
-          data = train_a)
+          data = odor_a_train)
 summary(m1)
-
-predict.fit = m1 %>%  predict(test_a,type="response") # pipe operator run model on train and then run on test data
-head(predict.fit)
-length(predict.fit)
-predicted.classes <- ifelse(predict.fit > 0.5, 1,0) # if in the predict fit data set if the number is greater than 0.5 then it is a 1 otherwise it is a 0 
-
-counter=0
-for(i in 1:nrow(test_a))
-{
-  if(predicted.classes[i] != test_a$odor[i])
-  {counter=counter+1}
-}
-# prediction not equal to actual gender
-# if I predicted a 1 as 0 then I misclassified
-counter
-misclassification.rate=counter/nrow(test_a)
-misclassification.rate
 
 ```
 
