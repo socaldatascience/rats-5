@@ -361,40 +361,43 @@ misclassification.rate
 ### Predicting Odor C or Not Odor C
 
 ```{r}
-odor_c <- test %>% 
+odor_c_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 3 ~ 1, 
+    odor != 3 ~ 0
+  )) %>% 
+  select(where(~any(. != 0)))
+
+odor_c_test <- test %>% 
   mutate(odor = case_when(
     odor == 3 ~ 1, 
     odor != 3 ~ 0
   ))
 
-all_rows <- seq(1, nrow(odor_c), 1)
-train_rows <- sample(all_rows, floor(.9*nrow(odor_c)), replace = F)
-
-train_c <- odor_c[train_rows,]
-test_c <- odor_c[-train_rows,]
-
-m3 <- glm(odor ~ neuron_12 + neuron_13 + neuron_14 + neuron_16 + 
-            neuron_17 + neuron_18 + neuron_4 + neuron_5 + neuron_6 + 
-            neuron_27 + neuron_34 + neuron_35 + neuron_40 + neuron_42 + neuron_44 + neuron_45,
+m3 <- glm(odor ~ neuron_1 + neuron_2 + neuron_4 + neuron_5 + neuron_6 + neuron_7 + neuron_8 + neuron_9 + neuron_10 + neuron_11 + neuron_12 + neuron_13 + neuron_14 + neuron_15 + neuron_16 + neuron_17 + neuron_18 + neuron_19 + neuron_20 + neuron_24 + neuron_25 + neuron_26 + neuron_27 + neuron_28 + neuron_29 + neuron_30 + neuron_31 + neuron_32 + neuron_33 + neuron_34 + neuron_35 + neuron_36 + neuron_37 + neuron_38 + neuron_39 + neuron_40 + neuron_41 + neuron_42 + neuron_44 + neuron_45 + neuron_46,
           family = binomial(link = "logit"), 
-          data = train_c)
+          data = odor_c_train)
 summary(m3)
 
-predict.fit = m3 %>%  predict(test_c,type="response") # pipe operator run model on train and then run on test data
+
+
+predict.fit = m3 %>%  
+  predict(odor_c_test, type="response") # pipe operator run model on train and then run on test data
 head(predict.fit)
 length(predict.fit)
-predicted.classes <- ifelse(predict.fit > 0.5, 1,0) # if in the predict fit data set if the number is greater than 0.5 then it is a 1 otherwise it is a 0 
+predicted.classes <- ifelse(predict.fit > 0.5, 1,0)
+#prcomp(odor_a_train[,c(2:43)], center = TRUE,scale. = TRUE)
 
 counter=0
-for(i in 1:nrow(test_c))
+for(i in 1:nrow(odor_c_test))
 {
-  if(predicted.classes[i] != test_c$odor[i])
+  if(predicted.classes[i] != odor_c_test$odor[i])
   {counter=counter+1}
 }
 # prediction not equal to actual gender
 # if I predicted a 1 as 0 then I misclassified
 counter
-misclassification.rate=counter/nrow(test_c)
+misclassification.rate=counter/nrow(odor_c_test)
 misclassification.rate
 
 ```
@@ -402,6 +405,44 @@ misclassification.rate
 ### Predicting Odor D or Not Odor D
 
 ```{r}
+odor_d_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 4 ~ 1, 
+    odor != 4 ~ 0
+  )) %>% 
+  select(where(~any(. != 0)))
+
+odor_d_test <- test %>% 
+  mutate(odor = case_when(
+    odor == 4 ~ 1, 
+    odor != 4 ~ 0
+  ))
+
+m4 <- glm(odor ~ neuron_1 + neuron_2 + neuron_4 + neuron_5 + neuron_6 + neuron_7 + neuron_8 + neuron_9 + neuron_10 + neuron_11 + neuron_12 + neuron_13 + neuron_14 + neuron_15 + neuron_16 + neuron_17 + neuron_18 + neuron_19 + neuron_20 + neuron_24 + neuron_25 + neuron_26 + neuron_27 + neuron_28 + neuron_29 + neuron_30 + neuron_31 + neuron_32 + neuron_33 + neuron_34 + neuron_35 + neuron_36 + neuron_37 + neuron_38 + neuron_39 + neuron_40 + neuron_41 + neuron_42 + neuron_44 + neuron_45 + neuron_46,
+          family = binomial(link = "logit"), 
+          data = odor_d_train)
+summary(m4)
+
+
+
+predict.fit = m4 %>%  
+  predict(odor_d_test, type="response") # pipe operator run model on train and then run on test data
+head(predict.fit)
+length(predict.fit)
+predicted.classes <- ifelse(predict.fit > 0.5, 1,0)
+#prcomp(odor_a_train[,c(2:43)], center = TRUE,scale. = TRUE)
+
+counter=0
+for(i in 1:nrow(odor_d_test))
+{
+  if(predicted.classes[i] != odor_d_test$odor[i])
+  {counter=counter+1}
+}
+# prediction not equal to actual gender
+# if I predicted a 1 as 0 then I misclassified
+counter
+misclassification.rate=counter/nrow(odor_d_test)
+misclassification.rate
 
 ```
 
