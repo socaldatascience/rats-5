@@ -290,14 +290,23 @@ m1 <- glm(odor ~ neuron_1 + neuron_2 + neuron_4 + neuron_5 + neuron_6 + neuron_7
           data = odor_a_train)
 summary(m1)
 
-
+percentage = 0
+count = 0
+for (i in 1:10) {
+  percentage = percentage + wassup[i]
+  count = count + 1
+}
+print(percentage)
+print(count)
 
 predict.fit = m1 %>%  
   predict(odor_a_test, type="response") # pipe operator run model on train and then run on test data
 head(predict.fit)
 length(predict.fit)
 predicted.classes <- ifelse(predict.fit > 0.5, 1,0)
-#prcomp(odor_a_train[,c(2:43)], center = TRUE,scale. = TRUE)
+
+pca <- prcomp(odor_a_train[,c(2:43)], center = TRUE,scale. = TRUE)
+summary(pca)
 
 counter=0
 for(i in 1:nrow(odor_a_test))
