@@ -570,15 +570,10 @@ combined_pred <- combined_pred %>%
   mutate(max_prob = max(c(probs_a, probs_b, probs_c, probs_d, probs_e))) %>% 
   mutate(pred_odor = case_when(
     probs_a == max_prob & pred_a == "A" ~ 1,
-    probs_a == max_prob & pred_a == "Not A" ~ 0,
     probs_b == max_prob & pred_b == "B" ~ 2,
-    probs_b == max_prob & pred_b == "Not B" ~ 0,
     probs_c == max_prob & pred_c == "C" ~ 3,
-    probs_c == max_prob & pred_c == "Not C" ~ 0,
     probs_d == max_prob & pred_d == "D" ~ 4,
-    probs_d == max_prob & pred_d == "Not D" ~ 0,
     probs_e == max_prob & pred_e == "E" ~ 5,
-    probs_e == max_prob & pred_e == "Not E" ~ 0,
   )) %>% 
   mutate(actual_odor = case_when(
     actual_odor_a == 1 ~ 1,
@@ -589,6 +584,13 @@ combined_pred <- combined_pred %>%
   )) 
   
 confusionMatrix(combined_pred$actual_odor, combined_pred$pred_odor)
+
+conf_mat <- confusion_matrix(targets = combined_pred$actual_odor, 
+                             predictions = combined_pred$pred_odor)
+
+conf_mat
+plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]], 
+                      palette = "Green")
 
 ```
 
