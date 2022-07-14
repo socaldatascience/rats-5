@@ -477,7 +477,16 @@ m5 <- glm(odor ~ .,
           data = odor_e_train)
 summary(m5)
 
-predictions <- predict(m5, odor_e_test, type = "response") # run model on train and then run on test data
+odor_e_pred <- data.frame(predictions = predict(m5, odor_e_test, type = "response")) # run model on 
+optimal <- optimalCutoff(odor_e_test$odor, probs)[1]
+
+odor_e_pred <- odor_e_pred %>% 
+  mutate(probs = exp(predictions)/(1+exp(predictions))) %>% 
+  mutate(pred = ifelse(probs > optimal, "E", "Not E"))
+# glm_pred <- predictions %>%
+  # mutate(pred = ifelse(probs>.5, "E", "Not E"))
+
+glm_pred <- cbind(odor_e_test, glm_pred)
 
 optimal <- optimalCutoff(odor_e_test$odor, predictions)[1]
 
