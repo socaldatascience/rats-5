@@ -520,6 +520,13 @@ confusionMatrix(odor_e_test$odor, predictions)
 
 ```
 
+## Combining
+```{r}
+combined_pred <- cbind(odor_a_pred, odor_b_pred, odor_c_pred, odor_d_pred, 
+                       odor_e_pred)
+```
+
+
 # making vectors for the entire column of each Neuron
 # making a vector for the firing count of each neuron
 
