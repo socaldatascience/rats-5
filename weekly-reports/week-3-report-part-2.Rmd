@@ -273,35 +273,6 @@ __Potential Predictors (Neurons): 4, 5, 6, 12, 13, 14, 16, 17, 18, , 27, 34, 35,
 
 
 ### Predicting Odor A or Not Odor A 
-```{r}
-set.seed(1738)
-ctrl <- trainControl(method = 'cv', number = 10)
-model_1 <- train(odor~., data = odor_a_test, method = 'glm', family = binomial(link = "logit"),  trControl = ctrl)
-print(model_1)
-summary(model_1)
-
-predicted <- predict(model, test, type="response")
-
-set.seed(1)
-sample <- sample(c(TRUE, FALSE), nrow(odor_a_test), replace=TRUE, prob=c(0.7,0.3))
-train_1 <- odor_a_test[sample, ]
-test_1 <- odor_a_test[!sample, ]
-
-
-
-nshuffle = 50
-for (j in 0:nshuffle){
-  set.seed(100+nshuffle)
-  ctrl <- trainControl(method = 'cv', number = 10)
-  model_1 <- train(odor~., data = , method = 'lm', trControl = ctrl)
-}
-model_1[nshuffle] <- train(odor~., data = , method = 'lm' , trControl = ctrl)
-
-
-
-
-```
-
 
 ```{r}
 odor_a_train <- train %>% 
@@ -357,7 +328,34 @@ misclassification.rate
 ```
 
 
+```{r}
+set.seed(1738)
+ctrl <- trainControl(method = 'cv', number = 10)
+model_1 <- train(odor~., data = odor_a_test, method = 'glm', family = binomial(link = "logit"),  trControl = ctrl)
+print(model_1)
+summary(model_1)
 
+predicted <- predict(model, test, type="response")
+
+set.seed(1)
+sample <- sample(c(TRUE, FALSE), nrow(odor_a_test), replace=TRUE, prob=c(0.7,0.3))
+train_1 <- odor_a_test[sample, ]
+test_1 <- odor_a_test[!sample, ]
+
+
+
+nshuffle = 50
+for (j in 0:nshuffle){
+  set.seed(100+nshuffle)
+  ctrl <- trainControl(method = 'cv', number = 10)
+  model_1 <- train(odor~., data = , method = 'lm', trControl = ctrl)
+}
+model_1[nshuffle] <- train(odor~., data = , method = 'lm' , trControl = ctrl)
+
+
+
+
+```
 
 ### Predicting Odor B or Not Odor B
 
