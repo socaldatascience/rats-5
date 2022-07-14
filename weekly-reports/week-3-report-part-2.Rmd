@@ -477,17 +477,21 @@ m5 <- glm(odor ~ .,
           data = odor_e_train)
 summary(m5)
 
-odor_e_pred <- data.frame(predictions = predict(m5, odor_e_test, type = "response")) # run model on 
-optimal <- optimalCutoff(odor_e_test$odor, probs)[1]
+odor_e_pred <- data.frame(predictions_e = predict(m5, odor_e_test, type = "response")) # run model on 
 
 odor_e_pred <- odor_e_pred %>% 
-  mutate(probs = exp(predictions)/(1+exp(predictions))) %>% 
-  mutate(pred = ifelse(probs > optimal, "E", "Not E"))
+  mutate(probs_e = exp(predictions_e)/(1+exp(predictions_e))) 
+
+optimal <- optimalCutoff(odor_e_test$odor, odor_e_pred$probs_e)
+# optimal = 0.7310586
+
+odor_e_pred <- odor_e_pred %>% 
+  mutate(pred_e = ifelse(probs_e > .70, "E", "Not E"))
 # glm_pred <- predictions %>%
   # mutate(pred = ifelse(probs>.5, "E", "Not E"))
 
-glm_pred <- cbind(odor_e_test, glm_pred)
-
+odor_e_pred <- cbind(odor_e_test$odor, odor_e_pred) %>% 
+  rename(actual_odor_e = `odor_e_test$odor`)
 optimal <- optimalCutoff(odor_e_test$odor, predictions)[1]
 
 confusionMatrix(odor_e_test$odor, predictions)
