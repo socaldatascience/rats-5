@@ -424,24 +424,34 @@ odor_c_train <- train %>%
     odor == 3 ~ 1, 
     odor != 3 ~ 0
   )) %>% 
-  #select(where(~any(. != 0)))
-  select(-trial)
-  
+  select(where(~any(. != 0)))
+
 odor_c_test <- test %>% 
   mutate(odor = case_when(
     odor == 3 ~ 1, 
     odor != 3 ~ 0
-  )) %>% 
-  select(-trial)
+  ))
 
 m3 <- glm(odor ~ .,
           family = binomial(link = "logit"), 
           data = odor_c_train)
 summary(m3)
 
-predictions <- predict(m3, odor_c_test, type = "response") # run model on train and then run on test data
+odor_c_pred <- data.frame(predictions_c = predict(m3, odor_c_test, type = "response")) # run model on 
 
-optimal <- optimalCutoff(odor_c_test$odor, predictions)[1]
+odor_c_pred <- odor_c_pred %>% 
+  mutate(probs_c = exp(predictions_c)/(1+exp(predictions_c))) 
+
+optimal <- optimalCutoff(odor_c_test$odor, odor_c_pred$probs_c)
+# optimal = 0.7310586
+
+odor_c_pred <- odor_c_pred %>% 
+  mutate(pred_c = ifelse(probs_c > .70, "C", "Not C"))
+# glm_pred <- predictions %>%
+  # mutate(pred = ifelse(probs>.5, "C", "Not C"))
+
+odor_c_pred <- cbind(odor_c_test$odor, odor_c_pred) %>% 
+  rename(actual_odor_c = `odor_c_test$odor`)
 
 confusionMatrix(odor_c_test$odor, predictions)
 
@@ -471,9 +481,21 @@ m4 <- glm(odor ~ .,
           data = odor_d_train)
 summary(m4)
 
-predictions <- predict(m4, odor_d_test, type = "response") # run model on train and then run on test data
+odor_d_pred <- data.frame(predictions_d = predict(m4, odor_d_test, type = "response")) # run model on 
 
-optimal <- optimalCutoff(odor_d_test$odor, predictions)[1]
+odor_d_pred <- odor_d_pred %>% 
+  mutate(probs_d = exp(predictions_d)/(1+exp(predictions_d))) 
+
+optimal <- optimalCutoff(odor_d_test$odor, odor_d_pred$probs_d)
+# optimal = 0.7310586
+
+odor_d_pred <- odor_d_pred %>% 
+  mutate(pred_d = ifelse(probs_d > .60, "D", "Not D"))
+# glm_pred <- predictions %>%
+  # mutate(pred = ifelse(probs>.5, "E", "Not E"))
+
+odor_d_pred <- cbind(odor_d_test$odor, odor_d_pred) %>% 
+  rename(actual_odor_d = `odor_d_test$odor`)
 
 confusionMatrix(odor_d_test$odor, predictions)
 
