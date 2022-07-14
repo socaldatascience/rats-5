@@ -556,8 +556,40 @@ confusionMatrix(odor_e_test$odor, predictions)
 
 ## Combining
 ```{r}
-combined_pred <- cbind(odor_a_pred, odor_b_pred, odor_c_pred, odor_d_pred, 
+combined_pred <- cbind(odor_a_pred, 
+                       odor_b_pred, 
+                       odor_c_pred, 
+                       odor_d_pred, 
                        odor_e_pred)
+
+combined_pred <- combined_pred %>% 
+  select(probs_a, probs_b, probs_c, probs_d, probs_e, 
+         pred_a, pred_b, pred_c, pred_d, pred_e, 
+         actual_odor_a, actual_odor_b, actual_odor_c, actual_odor_d, actual_odor_e) %>% 
+  rowwise() %>% 
+  mutate(max_prob = max(c(probs_a, probs_b, probs_c, probs_d, probs_e))) %>% 
+  mutate(pred_odor = case_when(
+    probs_a == max_prob & pred_a == "A" ~ 1,
+    probs_a == max_prob & pred_a == "Not A" ~ 0,
+    probs_b == max_prob & pred_b == "B" ~ 2,
+    probs_b == max_prob & pred_b == "Not B" ~ 0,
+    probs_c == max_prob & pred_c == "C" ~ 3,
+    probs_c == max_prob & pred_c == "Not C" ~ 0,
+    probs_d == max_prob & pred_d == "D" ~ 4,
+    probs_d == max_prob & pred_d == "Not D" ~ 0,
+    probs_e == max_prob & pred_e == "E" ~ 5,
+    probs_e == max_prob & pred_e == "Not E" ~ 0,
+  )) %>% 
+  mutate(actual_odor = case_when(
+    actual_odor_a == 1 ~ 1,
+    actual_odor_b == 1 ~ 2,
+    actual_odor_c == 1 ~ 3,
+    actual_odor_d == 1 ~ 4,
+    actual_odor_e == 1 ~ 5
+  )) 
+  
+confusionMatrix(combined_pred$actual_odor, combined_pred$pred_odor)
+
 ```
 
 
