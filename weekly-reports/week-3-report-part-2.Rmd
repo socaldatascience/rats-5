@@ -280,20 +280,34 @@ odor_a_train <- train %>%
     odor == 1 ~ 1, 
     odor != 1 ~ 0
   )) %>% 
-  select(where(~any(. != 0)))
+  #select(where(~any(. != 0))) %>% 
+  select(-trial)
 
 odor_a_test <- test %>% 
   mutate(odor = case_when(
     odor == 1 ~ 1, 
     odor != 1 ~ 0
-  ))
-
-odor_a_test <- subset(odor_a_test, select = -c(trial))
+  )) %>%  
+  #select(where(~any(. != 0))) %>% 
+  select(-trial)
 
 m1 <- glm(odor ~.,
           family = binomial(link = "logit"), 
           data = odor_a_train)
 summary(m1)
+
+predictions <- predict(m1, odor_a_test, type = "response") # run model on train and then run on test data
+
+optimal <- optimalCutoff(odor_a_test$odor, predictions)[1]
+
+confusionMatrix(odor_a_test$odor, predictions)
+
+```
+
+```{r}
+# PRINCIPAL COMPONENT ANALYSIS
+pca <- prcomp(odor_a_train[,c(2, 4:20, 24:43)], center = TRUE,scale. = TRUE)
+summary(pca)
 
 percentage = 0
 count = 0
@@ -303,39 +317,33 @@ count = 0
 #}
 print(percentage)
 print(count)
-
-predict.fit = m1 %>%  
-  predict(odor_a_test, type="response") # pipe operator run model on train and then run on test data
-head(predict.fit)
-length(predict.fit)
-predicted.classes <- ifelse(predict.fit > 0.5, 1,0)
-
-pca <- prcomp(odor_a_train[,c(2:43)], center = TRUE,scale. = TRUE)
-summary(pca)
-
-counter=0
-for(i in 1:nrow(odor_a_test))
-{
-  if(predicted.classes[i] != odor_a_test$odor[i])
-  {counter=counter+1}
-}
-# prediction not equal to actual gender
-# if I predicted a 1 as 0 then I misclassified
-counter
-misclassification.rate=counter/nrow(odor_a_test)
-misclassification.rate
-
 ```
 
 
+
 ```{r}
-set.seed(1738)
-ctrl <- trainControl(method = 'cv', number = 10)
-model_1 <- train(odor~., data = odor_a_test, method = 'glm', family = binomial(link = "logit"),  trControl = ctrl)
+
+set.seed(107)
+inTrain <- createDataPartition(
+  y = odor_a_test$odor,  ## the outcome data are needed
+  p = .75, ## The percentage of data in the training set
+  list = FALSE
+)
+str(inTrain)
+training <- odor_a_test[ inTrain,]
+testing  <- odor_a_test[-inTrain,]
+nrow(training) # 180
+nrow(testing) # 60
+
+model_1 <- train(odor~., 
+                 data = training, 
+                 method = 'glm', 
+                 family = "binomial",  
+                 trControl = ctrl)
 print(model_1)
 summary(model_1)
 
-predicted <- predict(model, test, type="response")
+predicted <- predict(model_1, testing)
 
 set.seed(1)
 sample <- sample(c(TRUE, FALSE), nrow(odor_a_test), replace=TRUE, prob=c(0.7,0.3))
@@ -351,9 +359,6 @@ for (j in 0:nshuffle){
   model_1 <- train(odor~., data = , method = 'lm', trControl = ctrl)
 }
 model_1[nshuffle] <- train(odor~., data = , method = 'lm' , trControl = ctrl)
-
-
-
 
 ```
 
