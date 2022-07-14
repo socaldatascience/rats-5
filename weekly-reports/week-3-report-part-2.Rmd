@@ -370,23 +370,34 @@ odor_b_train <- train %>%
     odor == 2 ~ 1, 
     odor != 2 ~ 0
   )) %>% 
-  #select(where(~any(. != 0)))
-  select(-trial)
+  select(where(~any(. != 0)))
 
 odor_b_test <- test %>% 
   mutate(odor = case_when(
     odor == 2 ~ 1, 
     odor != 2 ~ 0
-  )) %>% 
-  select(-trial)
+  ))
 
 m2 <- glm(odor ~ .,
           family = binomial(link = "logit"), 
           data = odor_b_train)
 summary(m2)
 
-predictions <- predict(m2, odor_b_test, type = "response") # run model on train and then run on test data
+odor_b_pred <- data.frame(predictions_b = predict(m2, odor_b_test, type = "response")) # run model on 
 
+odor_b_pred <- odor_b_pred %>% 
+  mutate(probs_b = exp(predictions_b)/(1+exp(predictions_b))) 
+
+optimal <- optimalCutoff(odor_b_test$odor, odor_b_pred$probs_b)
+# optimal = 0.7310586
+
+odor_b_pred <- odor_b_pred %>% 
+  mutate(pred_b = ifelse(probs_b > .70, "B", "Not B"))
+# glm_pred <- predictions %>%
+  # mutate(pred = ifelse(probs>.5, "E", "Not E"))
+
+odor_b_pred <- cbind(odor_b_test$odor, odor_b_pred) %>% 
+  rename(actual_odor_b = `odor_b_test$odor`)
 optimal <- optimalCutoff(odor_b_test$odor, predictions)[1]
 
 confusionMatrix(odor_b_test$odor, predictions)
