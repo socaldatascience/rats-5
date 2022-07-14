@@ -457,7 +457,7 @@ optimal <- optimalCutoff(odor_c_test$odor, odor_c_pred$probs_c)
 # optimal = 0.7310586
 
 odor_c_pred <- odor_c_pred %>% 
-  mutate(pred_c = ifelse(probs_c > .70, "C", "Not C"))
+  mutate(pred_c = ifelse(probs_c > .731, "C", "Not C"))
 # glm_pred <- predictions %>%
   # mutate(pred = ifelse(probs>.5, "C", "Not C"))
 
