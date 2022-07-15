@@ -187,6 +187,7 @@ em_trials <- bm %>%
 ### Creating Odor Column (Response) Variable
 
 ```{r}
+# selecting indices where odor 1 is being presented
 odor_1_trials <- em_trials %>% 
   filter(odor_1 == 1) %>% 
   select(trial) %>% 
@@ -215,6 +216,12 @@ odor_5_trials <- em_trials %>%
 
 
 ```{r}
+# creating odor column in em_trials
+# odor is one of (1, 2, 3, 4, 5)
+# odor_x = 1 whenever the trial is in the list of trials for odor x, 0 otherwise
+# odor_1 = 1 when the trial is in odor_1_trials, 0 otherwise
+# if odor_1 = 1 then odor = 1
+# if odor_2 = 1 then odor = 2
 em_trials_odors <- em_trials %>% 
   filter(trial != 0) %>% 
   mutate(
@@ -243,7 +250,8 @@ em_trials_odors <- em_trials %>%
   )) 
 
 
-
+# train on 250 ms window
+# get 250 ms window after the trial started (after poke-in)
 train <- em_trials_odors %>% 
   group_by(trial) %>% 
   slice(250:500) %>% 
@@ -256,6 +264,7 @@ train <- em_trials_odors %>%
     trial %in% odor_5_trials ~ 5
   )) 
   
+# test on remaining time in the trial
 test <- em_trials_odors %>% 
   group_by(trial) %>% 
   slice(-(250:500)) %>% 
@@ -275,6 +284,12 @@ __Potential Predictors (Neurons): 4, 5, 6, 12, 13, 14, 16, 17, 18, , 27, 34, 35,
 ### Predicting Odor A or Not Odor A 
 
 ```{r}
+# Modeling odor A
+# Predicting odor A vs not odor A
+# Create test data frame for odor A
+# When odor == 1 then odor is A (1)
+# When odor != 1 then odor is not A (0)
+# remove trial column which is not used in the model
 odor_a_train <- train %>% 
   mutate(odor = case_when(
     odor == 1 ~ 1, 
@@ -283,6 +298,7 @@ odor_a_train <- train %>%
   #select(where(~any(. != 0))) %>% 
   select(-trial)
 
+# create test data frame for odor A
 odor_a_test <- test %>% 
   mutate(odor = case_when(
     odor == 1 ~ 1, 
@@ -291,6 +307,9 @@ odor_a_test <- test %>%
   #select(where(~any(. != 0))) %>% 
   select(-trial)
 
+# create logistic regression model with
+# response: odor
+# predictors: all neurons
 m1 <- glm(odor ~.,
           family = binomial(link = "logit"), 
           data = odor_a_train)
@@ -298,14 +317,18 @@ summary(m1)
 
 predictions <- predict(m1, odor_a_test, type = "response") # run model on train and then run on test data
 
+# predict log odds of odor A using test data and create data frame
 odor_a_pred <- data.frame(predictions_a = predict(m1, odor_a_test, type = "response")) # run model on 
 
+# calculate probabilities given log odds
 odor_a_pred <- odor_a_pred %>% 
   mutate(probs_a = exp(predictions_a)/(1+exp(predictions_a))) 
 
+# calculate optimal cutoff for probabilities to classify into odor A or not A
 optimal <- optimalCutoff(odor_a_test$odor, odor_a_pred$probs_a)
 # optimal = 0.009
 
+# Classify prediction as A or not A
 odor_a_pred <- odor_a_pred %>% 
   mutate(pred_a = ifelse(probs_a > 0.501, "A", "Not A"))
 # glm_pred <- predictions %>%
@@ -323,6 +346,17 @@ odor_a_pred <- cbind(odor_a_test$odor, odor_a_pred) %>%
 
 #confusionMatrix(odor_a_test$odor, predictions)
 
+
+odor_a_pred <- odor_a_pred %>% 
+  mutate(pred_a_class = case_when(
+    pred_a == "A" ~ 1,
+    pred_a == "Not A" ~ 0
+  ))
+
+# create confusion matrix
+# rows are predictions
+# columns are actual values
+confusionMatrix(odor_a_test$odor, odor_a_pred$pred_a_class)
 
 
 ```
@@ -471,8 +505,8 @@ odor_c_pred <- odor_c_pred %>%
 # glm_pred <- predictions %>%
   # mutate(pred = ifelse(probs>.5, "C", "Not C"))
 
-#odor_c_pred <- cbind(odor_c_test$odor, odor_c_pred) %>% 
-#  rename(actual_odor_c = `odor_c_test$odor`)
+odor_c_pred <- cbind(odor_c_test$odor, odor_c_pred) %>% 
+  rename(actual_odor_c = `odor_c_test$odor`)
 
 #confusionMatrix(odor_c_test$odor, predictions)
 
