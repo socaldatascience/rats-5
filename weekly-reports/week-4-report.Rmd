@@ -5,7 +5,6 @@ date: '2022-07-15'
 output: html_document
 ---
 
-
 # Libraries
 
 ```{r}
@@ -20,6 +19,10 @@ library(gridExtra)
 library(caret)
 library(InformationValue)
 library(ISLR)
+library(nnet)
+library(broom)
+library(ggplot2); theme_set(theme_bw())
+library(ggstance)
 ```
 
 # Loading in Data
@@ -182,3 +185,200 @@ em_trials <- bm %>%
   select(time_bin, trial, odor_1, odor_2, odor_3, odor_4, odor_5) %>% 
   cbind(em) 
 ```
+
+### Creating Odor Column (Response) Variable
+
+```{r}
+odor_1_trials <- em_trials %>% 
+  filter(odor_1 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_2_trials <- em_trials %>% 
+  filter(odor_2 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_3_trials <- em_trials %>% 
+  filter(odor_3 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_4_trials <- em_trials %>% 
+  filter(odor_4 == 1) %>% 
+  select(trial) %>% 
+  pull()
+
+odor_5_trials <- em_trials %>% 
+  filter(odor_5 == 1) %>% 
+  select(trial) %>% 
+  pull()
+```
+
+
+```{r}
+em_trials_odors <- em_trials %>% 
+  filter(trial != 0) %>% 
+  mutate(
+    odor_1 = case_when(
+      trial %in% odor_1_trials ~ 1,
+      !(trial %in% odor_1_trials) ~ 0),
+    odor_2 = case_when(
+      trial %in% odor_2_trials ~ 1,
+      !(trial %in% odor_2_trials) ~ 0),
+    odor_3 = case_when(
+      trial %in% odor_3_trials ~ 1,
+      !(trial %in% odor_3_trials) ~ 0),
+    odor_4 = case_when(
+      trial %in% odor_4_trials ~ 1,
+      !(trial %in% odor_4_trials) ~ 0),
+    odor_5 = case_when(
+      trial %in% odor_5_trials ~ 1,
+      !(trial %in% odor_5_trials) ~ 0)
+  ) %>% 
+  mutate(odor = case_when(
+    odor_1 == 1 ~ 1,
+    odor_2 == 1 ~ 2,
+    odor_3 == 1 ~ 3,
+    odor_4 == 1 ~ 4,
+    odor_5 == 1 ~ 5,
+  )) 
+
+
+
+train <- em_trials_odors %>% 
+  group_by(trial) %>% 
+  slice(250:500) %>% 
+  summarise(across(neuron_1:neuron_46, sum)) %>% 
+  mutate(odor = case_when(
+    trial %in% odor_1_trials ~ 1,
+    trial %in% odor_2_trials ~ 2,
+    trial %in% odor_3_trials ~ 3,
+    trial %in% odor_4_trials ~ 4,
+    trial %in% odor_5_trials ~ 5
+  )) %>%
+  select(-trial)
+  
+test <- em_trials_odors %>% 
+  group_by(trial) %>% 
+  slice(-(250:500)) %>% 
+  summarise(across(neuron_1:neuron_46, sum)) %>% 
+  mutate(odor = case_when(
+    trial %in% odor_1_trials ~ 1,
+    trial %in% odor_2_trials ~ 2,
+    trial %in% odor_3_trials ~ 3,
+    trial %in% odor_4_trials ~ 4,
+    trial %in% odor_5_trials ~ 5
+  )) %>%
+  select(-trial)
+```
+
+```{r}
+odor_a_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 1 ~ 1, 
+    odor != 1 ~ 0
+  )) 
+  
+odor_a_test <- test %>% 
+  mutate(odor = case_when(
+    odor == 1 ~ 1, 
+    odor != 1 ~ 0
+  )) 
+
+odor_b_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 2 ~ 1, 
+    odor != 2 ~ 0
+  )) 
+  
+odor_b_test <- test %>% 
+  mutate(odor = case_when(
+    odor == 2 ~ 1, 
+    odor != 2 ~ 0
+  ))
+
+odor_c_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 3 ~ 1, 
+    odor != 3 ~ 0
+  )) 
+
+odor_c_test <- test %>% 
+  mutate(odor = case_when(
+    odor == 3 ~ 1, 
+    odor != 3 ~ 0
+  ))
+
+odor_d_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 4 ~ 1, 
+    odor != 4 ~ 0
+  )) 
+  
+odor_d_test <- test %>% 
+  mutate(odor = case_when(
+    odor == 4 ~ 1, 
+    odor != 4 ~ 0
+  )) 
+
+odor_e_train <- train %>% 
+  mutate(odor = case_when(
+    odor == 5 ~ 1, 
+    odor != 5 ~ 0
+  )) 
+  
+odor_e_test <- test %>% 
+  mutate(odor = case_when(
+    odor == 5 ~ 1, 
+    odor != 5 ~ 0
+  )) 
+```
+
+
+# multinomial Logistic Regression
+```{r}
+# the odor would be the target variable 
+
+pog_model <- multinom(odor ~ .,
+                      data = test)
+
+model_1 <- multinom(odor ~ .,
+                    data = odor_a_test)
+
+model_2 <- multinom(odor ~ .,
+                    data = odor_b_test)
+
+model_3 <- multinom(odor ~ .,
+                    data = odor_c_test)
+
+model_4 <- multinom(odor ~ .,
+                    data = odor_d_test)
+
+model_5 <- multinom(odor ~ .,
+                    data = odor_e_test)
+
+summary(model_1)
+summary(model_2)
+summary(model_3)
+summary(model_4)
+summary(model_5)
+
+info_1 <- broom::tidy(model_1,conf.int=TRUE)
+info_1 <- dplyr::filter(info_1, term!="(Intercept)")
+
+info_2 <- broom::tidy(model_2,conf.int=TRUE)
+info_2 <- dplyr::filter(info_2, term!="(Intercept)")
+
+info_3 <- broom::tidy(model_3,conf.int=TRUE)
+info_3 <- dplyr::filter(info_3, term!="(Intercept)")
+
+info_4 <- broom::tidy(model_4,conf.int=TRUE)
+info_4 <- dplyr::filter(info_4, term!="(Intercept)")
+
+info_5 <- broom::tidy(model_5,conf.int=TRUE)
+info_5 <- dplyr::filter(info_5, term!="(Intercept)")
+
+
+```
+
