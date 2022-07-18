@@ -23,8 +23,9 @@ library(nnet)
 library(broom)
 library(ggplot2); theme_set(theme_bw())
 library(ggstance)
-library(summarytools)
-
+library(devtools)
+#install_github("vqv/ggbiplot")
+library(ggbiplot)
 ```
 
 # Loading in Data
@@ -41,7 +42,7 @@ ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
 ```{r}
 em <- data.frame(ensemble_m[1])
 bm <- data.frame(behavior_m[1]) 
-col_names <- data.frame(behavior_m[2])
+col_names <- behavior_m[2][1]
 ```
 
 ### Renaming variables 
@@ -49,7 +50,7 @@ col_names <- data.frame(behavior_m[2])
 ```{r}
 bm <-
   bm %>%
-  rename(time_bin = behavMatrix.1,
+  dplyr::rename(time_bin = behavMatrix.1,
          odor_1 = behavMatrix.2,
          odor_2 = behavMatrix.3,
          odor_3 = behavMatrix.4,
@@ -74,7 +75,7 @@ em <- subset(em, select = -c(EM.1) )
 
 em <- 
   em %>%
-  rename(neuron_1 = EM.2,
+  dplyr::rename(neuron_1 = EM.2,
          neuron_2 = EM.3,
          neuron_3 = EM.4,
          neuron_4 = EM.5,
@@ -251,7 +252,7 @@ em_trials_odors <- em_trials %>%
 train <- em_trials_odors %>% 
   group_by(trial) %>% 
   slice(250:500) %>% 
-  summarise(across(neuron_1:neuron_46, sum)) %>% 
+  dplyr::summarise(across(neuron_1:neuron_46, sum)) %>% 
   mutate(odor = case_when(
     trial %in% odor_1_trials ~ 1,
     trial %in% odor_2_trials ~ 2,
@@ -264,7 +265,7 @@ train <- em_trials_odors %>%
 test <- em_trials_odors %>% 
   group_by(trial) %>% 
   slice(-(250:500)) %>% 
-  summarise(across(neuron_1:neuron_46, sum)) %>% 
+  dplyr::summarise(across(neuron_1:neuron_46, sum)) %>% 
   mutate(odor = case_when(
     trial %in% odor_1_trials ~ 1,
     trial %in% odor_2_trials ~ 2,
@@ -304,5 +305,16 @@ classification_table
 misclassification_err <- mean(as.character(test$pred_odor) != as.character(test$odor))
 
 ```
+
+### PCA
+
+```{r}
+train_pca <- prcomp(train[,c(1:46)], center = TRUE, scale. = FALSE)
+
+summary(train_pca)
+
+# first 10 principal components explain about 80% of the variance
+```
+
 
 
