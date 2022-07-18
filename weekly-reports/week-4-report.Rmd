@@ -24,7 +24,7 @@ library(broom)
 library(ggplot2); theme_set(theme_bw())
 library(ggstance)
 library(summarytools)
-
+library(neuralnet)
 ```
 
 # Loading in Data
@@ -302,7 +302,31 @@ classification_table <- table(test$odor, test$pred_odor)
 classification_table
 
 misclassification_err <- mean(as.character(test$pred_odor) != as.character(test$odor))
+misclassification_err
 
 ```
+
+# PCA
+
+```{r}
+
+pca_1 <- pcaNNet(odor ~ ., 
+                 data = train,
+                 size = 19,
+                 hidden = 2,
+                 err.fct = "sse",
+                 threshold = 1,
+                 ) 
+pca_1
+pca_1$result.matrix
+
+neural_net <- neuralnet(odor ~ .,
+                       data = train,
+                         hidden = 6,
+                       linear.output = FALSE)
+neural_net
+
+```
+
 
 
