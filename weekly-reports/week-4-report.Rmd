@@ -322,7 +322,6 @@ pca_1 <- pcaNNet(odor ~ .,
                  threshold = 1,
                  ) 
 pca_1
-pca_1$result.matrix
 
 neural_net <- neuralnet(odor ~ .,
                        data = train,
