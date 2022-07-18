@@ -23,14 +23,11 @@ library(nnet)
 library(broom)
 library(ggplot2); theme_set(theme_bw())
 library(ggstance)
-<<<<<<< HEAD
 library(devtools)
 #install_github("vqv/ggbiplot")
 library(ggbiplot)
-=======
 library(summarytools)
 library(neuralnet)
->>>>>>> f0bdcaaf848abd56fee64b247a01ed55bc67cf48
 ```
 
 # Loading in Data
@@ -312,7 +309,7 @@ misclassification_err
 
 ```
 
-# PCA
+### PCA (James)
 
 ```{r}
 
@@ -334,7 +331,7 @@ neural_net
 
 ```
 
-### PCA
+### PCA (Giles)
 
 ```{r}
 train_pca <- prcomp(train[,c(1:46)], center = TRUE, scale. = FALSE)
