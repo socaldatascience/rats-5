@@ -23,6 +23,8 @@ library(nnet)
 library(broom)
 library(ggplot2); theme_set(theme_bw())
 library(ggstance)
+library(summarytools)
+
 ```
 
 # Loading in Data
@@ -279,13 +281,28 @@ test <- em_trials_odors %>%
 ```{r}
 # the odor would be the target variable 
 
-pog_model <- multinom(odor ~ .,
-                      data = test)
+pog_model <- multinom(as.factor(odor) ~ .,
+                      data = train)
 
 summary(pog_model)
 
 info <- broom::tidy(pog_model, conf.int = TRUE)
 info <- dplyr::filter(info, term != "(Intercept)")
+info
+```
+
+### Testing Model
+
+```{r}
+test <- 
+  test %>% 
+  mutate(pred_odor = predict(pog_model, newdata = test, "class"))
+
+classification_table <- table(test$odor, test$pred_odor)
+classification_table
+
+misclassification_err <- mean(as.character(test$pred_odor) != as.character(test$odor))
 
 ```
+
 
