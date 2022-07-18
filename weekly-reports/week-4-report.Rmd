@@ -29,6 +29,7 @@ library(ggbiplot)
 library(summarytools)
 library(neuralnet)
 library(pls)
+library(leaps)
 ```
 
 # Loading in Data
@@ -285,12 +286,12 @@ test <- em_trials_odors %>%
 ```{r}
 # the odor would be the target variable 
 
-pog_model <- multinom(as.factor(odor) ~ .,
+full_model <- multinom(as.factor(odor) ~ .,
                       data = train)
 
-summary(pog_model)
+summary(full_model)
 
-info <- broom::tidy(pog_model, conf.int = TRUE)
+info <- broom::tidy(full_model, conf.int = TRUE)
 info <- dplyr::filter(info, term != "(Intercept)")
 info
 ```
@@ -300,7 +301,7 @@ info
 ```{r}
 test <- 
   test %>% 
-  mutate(pred_odor = predict(pog_model, newdata = test, "class"))
+  mutate(pred_odor = predict(full_model, newdata = test, "class"))
 
 classification_table <- table(test$odor, test$pred_odor)
 classification_table
@@ -382,6 +383,13 @@ sum(diag(test_tab))/sum(test_tab)
 mean(as.character(test_pred) != as.character(tst$odor))
 
 ```
+
+### Stepwise Regression
+
+```{r}
+
+```
+
 
 
 
