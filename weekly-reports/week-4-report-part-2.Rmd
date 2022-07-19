@@ -443,14 +443,43 @@ x_test <- data.matrix(test_rates[, c('neuron_1', 'neuron_2', 'neuron_3', 'neuron
                            'neuron_36', 'neuron_37', 'neuron_38', 'neuron_39', 'neuron_40', 'neuron_41',
                            'neuron_42', 'neuron_43', 'neuron_44', 'neuron_45', 'neuron_46')])
 
+```
+
+### Testing Lasso Model
+
+```{r}
 cnf <- confusion.glmnet(best_model, x_test, y_test)
 cnf
 
 y_hat <- predict(best_model, x_test, s=0.01, type='class')
-y_hat
+#y_hat
 
-table(y_test, y_hat)
-mean(as.character(y_test) != as.character(y_hat))
+mean(as.character(y_hat) != as.character(y_test))
 
+n <- sum(cnf) # number of instances
+nc <- ncol(cnf) # number of classes
+rowsums <- apply(cnf, 1, sum) # number of instances per class
+colsums <- apply(cnf, 2, sum) # number of predictions per class
+diag <- diag(cnf)  # number of correctly classified instances per class 
+
+precision <- diag / colsums 
+recall <- diag / rowsums 
+f1 = 2 * precision * recall / (precision + recall) 
+
+print(" ************ Confusion Matrix ************")
+print(cnf)
+print(" ************ Diag ************")
+print(diag)
+print(" ************ Precision/Recall/F1 ************")
+print(data.frame(precision = c(precision, rep(NA, max_length - length(precision))),
+           recall = c(recall, rep(NA, max_length - length(recall))),
+           f1 = c(f1, rep(NA, max_length - length(f1))))) 
+
+macroPrecision <- mean(precision)
+macroRecall <- mean(recall)
+macroF1 <- mean(f1)
+
+print(" ************ Macro Precision/Recall/F1 ************")
+print(data.frame(macroPrecision, macroRecall, macroF1)) 
 ```
 
