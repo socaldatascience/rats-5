@@ -466,6 +466,8 @@ precision <- diag / colsums
 recall <- diag / rowsums 
 f1 = 2 * precision * recall / (precision + recall) 
 
+max_length <- max(c(length(precision), length(recall), length(f1)))
+
 print(" ************ Confusion Matrix ************")
 print(cnf)
 print(" ************ Diag ************")
