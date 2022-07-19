@@ -385,7 +385,7 @@ test_tab
 
 
 sum(diag(test_tab))/sum(test_tab)
-mean(as.character(test_pred) != as.character(tst$odor))
+mean(as.character(test_pred) != as.character(tst$odor), na.rm = TRUE)
 
 ```
 
