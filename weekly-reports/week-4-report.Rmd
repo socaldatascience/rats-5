@@ -281,6 +281,9 @@ test <- em_trials_odors %>%
 ```
 
 
+
+
+
 # Multinomial Logistic Regression
 
 ```{r}
@@ -384,9 +387,15 @@ mean(as.character(test_pred) != as.character(tst$odor))
 
 ```
 
+### Lasso
 
 
 
+```{r}
+em_trials_odors %>% 
+  group_by(trial) %>% 
+  dplyr::summarise(count = sum(neuron_1))
+```
 
 
 
