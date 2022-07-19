@@ -446,5 +446,11 @@ x_test <- data.matrix(test_rates[, c('neuron_1', 'neuron_2', 'neuron_3', 'neuron
 cnf <- confusion.glmnet(best_model, x_test, y_test)
 cnf
 
+y_hat <- predict(best_model, x_test, s=0.01, type='class')
+y_hat
+
+table(y_test, y_hat)
+mean(as.character(y_test) != as.character(y_hat))
+
 ```
 
