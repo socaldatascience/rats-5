@@ -384,11 +384,6 @@ mean(as.character(test_pred) != as.character(tst$odor))
 
 ```
 
-### Stepwise Regression
-
-```{r}
-
-```
 
 
 
