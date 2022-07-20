@@ -551,7 +551,6 @@ best_model <- glmnet(x, y, family = "multinomial", alpha = 1, lambda = best_lamb
 coef(best_model)
 
 
-
 y_test <- test_rates$odor
 
 #define matrix of predictor variables
