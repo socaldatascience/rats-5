@@ -453,6 +453,7 @@ x_test <- data.matrix(test_rates[, c('neuron_1', 'neuron_2', 'neuron_3', 'neuron
 ### Testing Lasso Model Trained On Timeframe 0 to 250 ms
 
 ```{r}
+set.seed(1738)
 cnf <- confusion.glmnet(best_model, x_test, y_test)
 cnf
 
