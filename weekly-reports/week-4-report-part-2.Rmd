@@ -323,37 +323,6 @@ test_rates <- cbind(test_rates, test_odors) %>%
 ```
 
 
-
-# Multinomial Logistic Regression
-
-```{r}
-# the odor would be the target variable 
-
-full_model <- multinom(as.factor(odor) ~ .,
-                      data = train_rates)
-
-summary(full_model)
-
-info <- broom::tidy(full_model, conf.int = TRUE)
-info <- dplyr::filter(info, term != "(Intercept)")
-info
-```
-
-### Testing Model
-
-```{r}
-test_rates <- 
-  test_rates %>% 
-  mutate(pred_odor = predict(full_model, newdata = test_rates, "class"))
-
-classification_table <- table(test_rates$odor, test_rates$pred_odor)
-classification_table
-
-misclassification_err <- mean(as.character(test_rates$pred_odor) != as.character(test_rates$odor))
-misclassification_err
-
-```
-
 ### Lasso Model Trained On Timeframe 0 to 250 ms
 
 ```{r}
