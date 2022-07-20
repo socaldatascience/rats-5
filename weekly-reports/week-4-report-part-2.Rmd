@@ -354,60 +354,6 @@ misclassification_err
 
 ```
 
-
-### PCA (Giles)
-
-```{r}
-train_no_zeros <- train_rates %>%
-  select(where(~ any(. != 0))) %>% 
-  select(-odor)
-
-test_no_zeros <- test_rates[, colnames(train_no_zeros)]
-
-train_pca_w_scale <- prcomp(train_no_zeros, center = TRUE, scale. = TRUE) 
-
-summary(train_pca_w_scale)
-# first 15 principal components explain about 60% of the variance
-
-ggbiplot(train_pca_w_scale) +
-  ggtitle("PCA of Training Data Set")+
-  theme_minimal() +
-  theme(legend.position = "bottom")
-
-
-trg <- predict(train_pca_w_scale, train_no_zeros) 
-trg <- data.frame(trg, train_rates$odor) %>% 
-  dplyr::rename(odor = train_rates.odor)
-
-tst <- predict(train_pca_w_scale, test_no_zeros) 
-tst <- data.frame(tst, test_rates$odor) %>% 
-  dplyr::rename(odor = test_rates.odor)
-
-pca_model <- multinom(odor ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6 +
-                        PC7 + PC8 + PC9 + PC10 + PC11 + PC12 +
-                        PC13 + PC14 + PC15 + PC16 + PC17 + PC18 + PC19, 
-                      data = trg)
-summary(pca_model)
-
-train_pred <- predict(pca_model, trg)
-train_tab <- table(train_pred, trg$odor)
-train_tab
-
-sum(diag(train_tab))/sum(train_tab)
-
-mean(as.character(train_pred) != as.character(trg$odor))
-
-test_pred <- predict(pca_model, tst)
-test_tab <- table(test_pred, tst$odor)
-test_tab
-
-
-sum(diag(test_tab))/sum(test_tab)
-mean(as.character(test_pred) != as.character(tst$odor))
-
-```
-
-
 ### Lasso Model Trained On Timeframe 0 to 250 ms
 
 ```{r}
@@ -489,6 +435,60 @@ macroF1 <- mean(f1, na.rm = TRUE)
 print(" ************ Macro Precision/Recall/F1 ************")
 print(data.frame(macroPrecision, macroRecall, macroF1)) 
 ```
+
+
+### PCA (Giles)
+
+```{r}
+train_no_zeros <- train_rates %>%
+  select(where(~ any(. != 0))) %>% 
+  select(-odor)
+
+test_no_zeros <- test_rates[, colnames(train_no_zeros)]
+
+train_pca_w_scale <- prcomp(train_no_zeros, center = TRUE, scale. = TRUE) 
+
+summary(train_pca_w_scale)
+# first 15 principal components explain about 60% of the variance
+
+ggbiplot(train_pca_w_scale) +
+  ggtitle("PCA of Training Data Set")+
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
+trg <- predict(train_pca_w_scale, train_no_zeros) 
+trg <- data.frame(trg, train_rates$odor) %>% 
+  dplyr::rename(odor = train_rates.odor)
+
+tst <- predict(train_pca_w_scale, test_no_zeros) 
+tst <- data.frame(tst, test_rates$odor) %>% 
+  dplyr::rename(odor = test_rates.odor)
+
+pca_model <- multinom(odor ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6 +
+                        PC7 + PC8 + PC9 + PC10 + PC11 + PC12 +
+                        PC13 + PC14 + PC15 + PC16 + PC17 + PC18 + PC19, 
+                      data = trg)
+summary(pca_model)
+
+train_pred <- predict(pca_model, trg)
+train_tab <- table(train_pred, trg$odor)
+train_tab
+
+sum(diag(train_tab))/sum(train_tab)
+
+mean(as.character(train_pred) != as.character(trg$odor))
+
+test_pred <- predict(pca_model, tst)
+test_tab <- table(test_pred, tst$odor)
+test_tab
+
+
+sum(diag(test_tab))/sum(test_tab)
+mean(as.character(test_pred) != as.character(tst$odor))
+
+```
+
 
 # Training Data Using 250 to 500 ms Window
 
@@ -912,5 +912,5 @@ macroRecall <- mean(recall, na.rm = TRUE)
 macroF1 <- mean(f1, na.rm = TRUE)
 
 print(" ************ Macro Precision/Recall/F1 ************")
-print(data.frame(macroPrecision, macroRecall, macroF1)) 
+print(data.frame(macroPrecision, macroRecall, macroF1)) `
 ```
