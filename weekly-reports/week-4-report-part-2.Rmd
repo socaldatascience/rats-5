@@ -403,7 +403,7 @@ macroRecall <- mean(recall, na.rm = TRUE)
 macroF1 <- mean(f1, na.rm = TRUE)
 
 print(" ************ Macro Precision/Recall/F1 ************")
-print(data.frame(macroPrecision, macroRecall, macroF1)) 
+tf1_macros <- data.frame(macroPrecision, macroRecall, macroF1)
 ```
 
 
@@ -598,7 +598,7 @@ macroRecall <- mean(recall, na.rm = TRUE)
 macroF1 <- mean(f1, na.rm = TRUE)
 
 print(" ************ Macro Precision/Recall/F1 ************")
-print(data.frame(macroPrecision, macroRecall, macroF1)) 
+tf2_macros <- data.frame(macroPrecision, macroRecall, macroF1)
 
 ```
 
@@ -740,7 +740,7 @@ macroRecall <- mean(recall, na.rm = TRUE)
 macroF1 <- mean(f1, na.rm = TRUE)
 
 print(" ************ Macro Precision/Recall/F1 ************")
-print(data.frame(macroPrecision, macroRecall, macroF1)) 
+tf3_macros <- data.frame(macroPrecision, macroRecall, macroF1)
 
 ```
 
@@ -882,5 +882,38 @@ macroRecall <- mean(recall, na.rm = TRUE)
 macroF1 <- mean(f1, na.rm = TRUE)
 
 print(" ************ Macro Precision/Recall/F1 ************")
-print(data.frame(macroPrecision, macroRecall, macroF1)) `
+
+tf4_macros <- data.frame(macroPrecision, macroRecall, macroF1)
 ```
+
+# Plots for Different Scores
+
+```{r}
+tf1_macros <- 
+  tf1_macros %>% 
+  mutate(time_frame_ms = "0 to 250")
+tf2_macros <- 
+  tf2_macros %>% 
+  mutate(time_frame_ms = "250 to 500")
+tf3_macros <- 
+  tf3_macros %>% 
+  mutate(time_frame_ms = "500 to 750")
+tf4_macros <- 
+  tf4_macros %>% 
+  mutate(time_frame_ms = "750 to 1000")
+
+timeframe_macros <- rbind(tf1_macros, tf2_macros, tf3_macros, tf4_macros)
+
+timeframe_macros %>% 
+  ggplot(aes(x = time_frame_ms, y = macroPrecision)) + 
+  geom_col()
+
+timeframe_macros %>% 
+  ggplot(aes(x = time_frame_ms, y = macroRecall)) + 
+  geom_col()
+
+timeframe_macros %>% 
+  ggplot(aes(x = time_frame_ms, y = macroF1)) + 
+  geom_col()
+```
+
