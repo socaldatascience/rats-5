@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ---
 title: "Week 2 Report"
 author: "Giles Carlos, Alyssandrei Parinas, Cadence Pinkerton, James Owens, Mia Chiu"
@@ -23,8 +21,8 @@ library(gridExtra)
 # Loading in Data
 
 ```{r}
-#behavior_m <- readMat(here::here("data/superchris_BM.mat"))
-#ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
+behavior_m <- readMat(here::here("data/superchris_BM.mat"))
+ensemble_m <- readMat(here::here("data/superchris_EM_onlyspikes_c.mat"))
 #behavior_info <- readMat(here::here("data/behav_info.mat"))
 # package can't load this version of matlab files
 # ensemble_mat <- readMat(here::here("data/SuperChris_EnsembleMatrix.mat"))
@@ -70,53 +68,52 @@ bm <- clean_names(bm)
   
 em <- 
   em %>%
-  rename(neuron_1 = EM.1,
-         neuron_2 = EM.2,
-         neuron_3 = EM.3,
-         neuron_4 = EM.4,
-         neuron_5 = EM.5,
-         neuron_6 = EM.6,
-         neuron_7 = EM.7,
-         neuron_8 = EM.8,
-         neuron_9 = EM.9,
-         neuron_10 = EM.10,
-         neuron_11 = EM.11,
-         neuron_12 = EM.12,
-         neuron_13 = EM.13,
-         neuron_14 = EM.14,
-         neuron_15 = EM.15,
-         neuron_16 = EM.16,
-         neuron_17 = EM.17,
-         neuron_18 = EM.18,
-         neuron_19 = EM.19,
-         neuron_20 = EM.20,
-         neuron_21 = EM.21,
-         neuron_22 = EM.22,
-         neuron_23 = EM.23,
-         neuron_24 = EM.24,
-         neuron_25 = EM.25,
-         neuron_26 = EM.26,
-         neuron_27 = EM.27,
-         neuron_28 = EM.28,
-         neuron_29 = EM.29,
-         neuron_30 = EM.30,
-         neuron_31 = EM.31,
-         neuron_32 = EM.32,
-         neuron_33 = EM.33,
-         neuron_34 = EM.34,
-         neuron_35 = EM.35,
-         neuron_36 = EM.36,
-         neuron_37 = EM.37,
-         neuron_38 = EM.38,
-         neuron_39 = EM.39,
-         neuron_40 = EM.40,
-         neuron_41 = EM.41,
-         neuron_42 = EM.42,
-         neuron_43 = EM.43,
-         neuron_44 = EM.44,
-         neuron_45 = EM.45,
-         neuron_46 = EM.46,
-         neuron_47 = EM.47)
+  rename(neuron_1 = EM.2,
+         neuron_2 = EM.3,
+         neuron_3 = EM.4,
+         neuron_4 = EM.5,
+         neuron_5 = EM.6,
+         neuron_6 = EM.7,
+         neuron_7 = EM.8,
+         neuron_8 = EM.9,
+         neuron_9 = EM.10,
+         neuron_10 = EM.11,
+         neuron_11 = EM.12,
+         neuron_12 = EM.13,
+         neuron_13 = EM.14,
+         neuron_14 = EM.15,
+         neuron_15 = EM.16,
+         neuron_16 = EM.17,
+         neuron_17 = EM.18,
+         neuron_18 = EM.19,
+         neuron_19 = EM.20,
+         neuron_20 = EM.21,
+         neuron_21 = EM.22,
+         neuron_22 = EM.23,
+         neuron_23 = EM.24,
+         neuron_24 = EM.25,
+         neuron_25 = EM.26,
+         neuron_26 = EM.27,
+         neuron_27 = EM.28,
+         neuron_28 = EM.29,
+         neuron_29 = EM.30,
+         neuron_30 = EM.31,
+         neuron_31 = EM.32,
+         neuron_32 = EM.33,
+         neuron_33 = EM.34,
+         neuron_34 = EM.35,
+         neuron_35 = EM.36,
+         neuron_36 = EM.37,
+         neuron_37 = EM.38,
+         neuron_38 = EM.39,
+         neuron_39 = EM.40,
+         neuron_40 = EM.41,
+         neuron_41 = EM.42,
+         neuron_42 = EM.43,
+         neuron_43 = EM.44,
+         neuron_44 = EM.45,
+         neuron_45 = EM.46,
+         neuron_46 = EM.47)
   
 em <- clean_names(em)
 ```
@@ -697,4 +694,3 @@ odor_e_plot <- bm %>%
 odor_e_plot
 ```
 
->>>>>>> e211d2ded1bb688ae2cbec2d3ed388385299024d
