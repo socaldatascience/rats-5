@@ -921,7 +921,7 @@ timeframe_macros %>%
 
 timeframe_macros %>% 
   ggplot(aes(x = time_frame_ms, y = macroF1)) + 
-  geom_col(color = "darkblue", fill = "#56B4E9") +
+  geom_col(fill = "#6998AB") +
   labs(title = "Macro F1 Score across all time frames",
        x = "Time Frame Window",
        y = "Macro F1 Score") +
